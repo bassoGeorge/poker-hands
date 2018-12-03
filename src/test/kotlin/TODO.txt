@@ -1,0 +1,6 @@
+[x] Compare Ranks: 2H == 2D
+[x] Get Ace High ranking of card
+[ ] Ace low ranking?
+[ ] Special handling of number card values?
+[x] Suit enum
+[x] Rank enum
