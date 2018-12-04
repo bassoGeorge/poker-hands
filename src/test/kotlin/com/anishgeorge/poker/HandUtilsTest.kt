@@ -8,14 +8,34 @@ internal class HandUtilsTest {
 
     @Test
     fun returnsHighCardFromGivenHand3() {
-        val hand = TreeSet<Card>()
-        hand.add(Card(Value.TEN, Suit.HEARTS))
-        hand.add(Card(Value.TWO, Suit.DIAMONDS))
-        hand.add(Card(Value.ACE, Suit.SPADES))
-        hand.add(Card(Value.TEN, Suit.CLUBS))
-        hand.add(Card(Value.KING, Suit.HEARTS))
+        val hand = CardSet(
+                Card(Value.TEN, Suit.HEARTS),
+                Card(Value.TWO, Suit.DIAMONDS),
+                Card(Value.ACE, Suit.SPADES),
+                Card(Value.TEN, Suit.CLUBS),
+                Card(Value.KING, Suit.HEARTS)
+        )
 
         assertEquals(Card(Value.ACE, Suit.SPADES), HandUtils.highCard(hand))
     }
 
+    @Test
+    fun returnsThePairsInAHand() {
+        val hand = CardSet(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.THREE, Suit.CLUBS),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.TWO, Suit.SPADES),
+                Card(Value.THREE, Suit.DIAMONDS)
+        )
+
+        val pairs = HandUtils.pairs(hand)
+        assertEquals(
+                listOf(
+                        listOf(Card(Value.JACK, Suit.DIAMONDS), Card(Value.JACK, Suit.HEARTS)),
+                        listOf(Card(Value.THREE, Suit.CLUBS), Card(Value.THREE, Suit.DIAMONDS))
+                ),
+                pairs
+        )
+    }
 }
