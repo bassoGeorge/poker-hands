@@ -1,6 +1,7 @@
+[x] Find High card in hand of 5/7
 [x] Compare Ranks: 2H == 2D
 [x] Get Ace High ranking of card
-[ ] Ace low ranking?
-[ ] Special handling of number card values?
 [x] Suit enum
 [x] Rank enum
+[ ] Ace low ranking?
+[ ] Special handling of number card values?

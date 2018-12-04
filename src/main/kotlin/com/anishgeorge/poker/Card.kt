@@ -1,6 +1,8 @@
 package com.anishgeorge.poker
 
-data class Card(val value: Value, val suit: Suit) {
+data class Card(val value: Value, val suit: Suit): Comparable<Card> {
+    override fun compareTo(other: Card): Int = other.rank - rank
+
     val rank get() = value.rank
 
     companion object {
