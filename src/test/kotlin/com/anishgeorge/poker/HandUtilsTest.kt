@@ -56,4 +56,41 @@ internal class HandUtilsTest {
                 triples
         )
     }
+
+    @Test
+    fun returnsTheStraightsInAHand() {
+        val hand = CardSet(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.TEN, Suit.CLUBS),
+                Card(Value.NINE, Suit.HEARTS),
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.SEVEN, Suit.DIAMONDS)
+        )
+
+        val straights = HandUtils.straights(hand)
+        assertEquals(
+                listOf(
+                        listOf(Card(Value.JACK, Suit.DIAMONDS),
+                                Card(Value.TEN, Suit.CLUBS),
+                                Card(Value.NINE, Suit.HEARTS),
+                                Card(Value.EIGHT, Suit.SPADES),
+                                Card(Value.SEVEN, Suit.DIAMONDS))
+                ),
+                straights
+        )
+    }
+
+    @Test
+    fun returnsTheStraightsInAHandNegative() {
+        val hand = CardSet(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.NINE, Suit.CLUBS),
+                Card(Value.NINE, Suit.HEARTS),
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.SEVEN, Suit.DIAMONDS)
+        )
+
+        val straights = HandUtils.straights(hand)
+        assertEquals(listOf<List<Card>>(), straights)
+    }
 }

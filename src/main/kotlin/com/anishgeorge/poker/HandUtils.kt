@@ -22,4 +22,20 @@ object HandUtils {
                 .toList()
     }
 
+    fun straights(hand: CardSet): List<List<Card>> {
+
+        fun isStraight5Cards(cards: List<Card>): Boolean {
+            var currentRank = cards.first().rank
+            for (card in cards.takeLast(cards.size - 1)) {
+                if (currentRank != card.rank + 1) return false
+                currentRank = card.rank
+            }
+            return true;
+        }
+
+        val cards = hand.toList() // list is always sorted descending order of rank
+        if (cards.size < 5) return listOf()
+        return if (isStraight5Cards(cards)) listOf(cards) else listOf();
+    }
+
 }
