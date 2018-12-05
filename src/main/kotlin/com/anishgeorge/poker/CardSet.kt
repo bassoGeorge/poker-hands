@@ -5,10 +5,13 @@ import java.util.*
 class CardSet(unsortedCards: List<Card>) {
 
     private val cards = unsortedCards.sortedDescending()
+    private val cardGroups = cards.groupBy { it.value }
+
     constructor(vararg unsortedCards: Card): this(unsortedCards.toList())
 
-    fun highest() = cards.first()
-    fun toList() = cards
+    fun highest(): Card = cards.first()
+    fun toList(): List<Card> = cards
+    fun inRankGroups(): Map<Value, List<Card>> = cardGroups
 
     /* Standard overrides */
     override fun equals(other: Any?): Boolean {

@@ -8,9 +8,16 @@ object HandUtils {
 
     fun pairs(hand: CardSet): List<List<Card>> {
         return hand
-                .toList()
-                .groupBy { it.value }
+                .inRankGroups()
                 .filter { entry -> entry.value.size == 2 }
+                .values
+                .toList()
+    }
+
+    fun triples(hand: CardSet): List<List<Card>> {
+        return hand
+                .inRankGroups()
+                .filter { entry -> entry.value.size == 3 }
                 .values
                 .toList()
     }
