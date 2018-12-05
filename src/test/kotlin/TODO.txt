@@ -1,5 +1,5 @@
 [ ] Find best hand of the given 5 cards
-[ ] Rank a hand
+[x] Rank a hand
 [x] Find High card in hand of 5/7
 [x] Compare Ranks: 2H == 2D
 [x] Get Ace High ranking of card

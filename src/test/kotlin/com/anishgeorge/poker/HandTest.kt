@@ -56,4 +56,19 @@ internal class HandTest {
         val hand = Hand.findBestHandOf(cardSet)
         assertEquals(HandType.THREE_OF_A_KIND, hand.type)
     }
+
+    @Test
+    fun handsHaveCorrectOrder() {
+        val twoPairs = Hand(HandType.TWO_PAIR)
+        val straight = Hand(HandType.STRAIGHT)
+        val highCard = Hand(HandType.HIGH_CARD)
+        val flush = Hand(HandType.FLUSH)
+        val threeOfAKind = Hand(HandType.THREE_OF_A_KIND)
+
+        val hands = listOf(twoPairs, straight, highCard, flush, threeOfAKind)
+        assertEquals(
+                listOf(highCard, twoPairs, threeOfAKind, straight, flush),
+                hands.sorted()
+        )
+    }
 }
