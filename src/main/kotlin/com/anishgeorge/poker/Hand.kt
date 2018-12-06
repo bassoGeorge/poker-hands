@@ -2,7 +2,7 @@ package com.anishgeorge.poker
 
 class Hand(
         val type: HandType = HandType.HIGH_CARD
-): Comparable<Hand> {
+) : Comparable<Hand> {
     val rank get() = type.rank
 
     override fun compareTo(other: Hand): Int = rank - other.rank
@@ -30,15 +30,10 @@ class Hand(
 
     companion object {
         fun findBestHandOf(cardSet: CardSet): Hand {
-            val straights = HandUtils.straights(cardSet)
-            if (straights.isNotEmpty()) return Hand(HandType.STRAIGHT)
-
-            val triples = HandUtils.triples(cardSet)
-            if (triples.isNotEmpty()) return Hand(HandType.THREE_OF_A_KIND)
-
-            val pairs = HandUtils.pairs(cardSet)
-            if (pairs.size == 1) return Hand(HandType.ONE_PAIR)
-            else if (pairs.size == 2) return Hand(HandType.TWO_PAIR)
+            if (cardSet.straights.isNotEmpty()) return Hand(HandType.STRAIGHT)
+            if (cardSet.triples.isNotEmpty()) return Hand(HandType.THREE_OF_A_KIND)
+            if (cardSet.pairs.size == 1) return Hand(HandType.ONE_PAIR)
+            else if (cardSet.pairs.size == 2) return Hand(HandType.TWO_PAIR)
 
             return Hand(HandType.HIGH_CARD)
         }
