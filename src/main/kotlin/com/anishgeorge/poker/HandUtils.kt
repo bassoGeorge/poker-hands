@@ -2,6 +2,10 @@ package com.anishgeorge.poker
 
 object HandUtils {
 
+    fun uniqueCards(cards: List<Card>): List<Card> = cards.fold(listOf()) { currentList, card ->
+        if (currentList.find { it.rank == card.rank } == null) currentList + card else currentList
+    }
+
     fun highCard(hand: CardSet): Card? {
         return hand.highest()
     }
@@ -24,18 +28,20 @@ object HandUtils {
 
     fun straights(hand: CardSet): List<List<Card>> {
 
-        fun isStraight5Cards(cards: List<Card>): Boolean {
+        val isStraight5Cards = fun(cards: List<Card>): Boolean {        // Anonymous function
             var currentRank = cards.first().rank
             for (card in cards.takeLast(cards.size - 1)) {
                 if (currentRank != card.rank + 1) return false
                 currentRank = card.rank
             }
-            return true;
+            return true
         }
 
-        val cards = hand.toList() // list is always sorted descending order of rank
+        val cards = uniqueCards(hand.toList())                  // list is always sorted descending order of rank
         if (cards.size < 5) return listOf()
-        return if (isStraight5Cards(cards)) listOf(cards) else listOf();
+        return (0..(cards.size - 5))
+                .map { cards.subList(it, it + 5) }
+                .filter(isStraight5Cards)                              // When using anonymous functions
     }
 
 }

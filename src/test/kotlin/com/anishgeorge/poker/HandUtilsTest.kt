@@ -93,4 +93,83 @@ internal class HandUtilsTest {
         val straights = HandUtils.straights(hand)
         assertEquals(listOf<List<Card>>(), straights)
     }
+
+    @Test
+    fun returnsTheStraightsInAHandOfMoreThan5Cards() {
+        val hand = CardSet(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.TEN, Suit.CLUBS),
+                Card(Value.NINE, Suit.HEARTS),
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.SIX, Suit.SPADES)
+        )
+
+        val straights = HandUtils.straights(hand)
+        assertEquals(
+                listOf(
+                        listOf(
+                                Card(Value.JACK, Suit.DIAMONDS),
+                                Card(Value.TEN, Suit.CLUBS),
+                                Card(Value.NINE, Suit.HEARTS),
+                                Card(Value.EIGHT, Suit.SPADES),
+                                Card(Value.SEVEN, Suit.DIAMONDS)),
+                        listOf(
+                                Card(Value.TEN, Suit.CLUBS),
+                                Card(Value.NINE, Suit.HEARTS),
+                                Card(Value.EIGHT, Suit.SPADES),
+                                Card(Value.SEVEN, Suit.DIAMONDS),
+                                Card(Value.SIX, Suit.SPADES))
+                ),
+                straights
+        )
+    }
+
+    @Test
+    fun uniqueCardsReturnsCardsUniqueInRankToTheGivenList() {
+        val cardList = listOf(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.TEN, Suit.CLUBS),
+                Card(Value.NINE, Suit.HEARTS),
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.NINE, Suit.SPADES)
+        )
+
+        val uniques = HandUtils.uniqueCards(cardList)
+        assertEquals(listOf(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.TEN, Suit.CLUBS),
+                Card(Value.NINE, Suit.HEARTS),
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.SEVEN, Suit.DIAMONDS)
+        ), uniques)
+        assertEquals(6, cardList.size)
+    }
+
+
+    @Test
+    fun returnsTheStraightsInAHandOfMoreThan5CardsWhenThereArePairsOrTriplesInTheMix() {
+        val hand = CardSet(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.TEN, Suit.CLUBS),
+                Card(Value.NINE, Suit.HEARTS),
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.NINE, Suit.SPADES)
+        )
+
+        val straights = HandUtils.straights(hand)
+        assertEquals(
+                listOf(
+                        listOf(
+                                Card(Value.JACK, Suit.DIAMONDS),
+                                Card(Value.TEN, Suit.CLUBS),
+                                Card(Value.NINE, Suit.HEARTS),
+                                Card(Value.EIGHT, Suit.SPADES),
+                                Card(Value.SEVEN, Suit.DIAMONDS))
+                ),
+                straights
+        )
+    }
 }

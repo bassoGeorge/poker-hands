@@ -58,6 +58,21 @@ internal class HandTest {
     }
 
     @Test
+    fun shouldGiveStraight() {
+        val cardSet = CardSet(
+                Card(Value.SEVEN, Suit.HEARTS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.CLUBS),
+                Card(Value.KING, Suit.CLUBS),
+                Card(Value.TEN, Suit.HEARTS),
+                Card(Value.NINE, Suit.DIAMONDS)
+        )
+        val hand = Hand.findBestHandOf(cardSet)
+        assertEquals(HandType.STRAIGHT, hand.type)
+    }
+
+    @Test
     fun handsHaveCorrectOrder() {
         val twoPairs = Hand(HandType.TWO_PAIR)
         val straight = Hand(HandType.STRAIGHT)

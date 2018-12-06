@@ -1,6 +1,7 @@
 [ ] Find best hand of the given 5 cards
 [x] Find straight in a 5 card hand
-[ ] Find straights in 5+cards
+[x] Find straights in 5+cards
+[ ] Find straights in face of pairs in the set
 [x] Rank a hand
 [x] Find High card in hand of 5/7
 [x] Compare Ranks: 2H == 2D

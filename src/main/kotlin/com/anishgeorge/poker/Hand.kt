@@ -30,6 +30,9 @@ class Hand(
 
     companion object {
         fun findBestHandOf(cardSet: CardSet): Hand {
+            val straights = HandUtils.straights(cardSet)
+            if (straights.isNotEmpty()) return Hand(HandType.STRAIGHT)
+
             val triples = HandUtils.triples(cardSet)
             if (triples.isNotEmpty()) return Hand(HandType.THREE_OF_A_KIND)
 
