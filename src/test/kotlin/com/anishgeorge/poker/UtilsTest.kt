@@ -47,4 +47,19 @@ internal class UtilsTest {
          Card(Value.EIGHT, Suit.CLUBS)
         )))
     }
+
+    @Test
+    fun totalRankShouldReturnTheNetRankOfTheGivenCards() {
+        assertEquals(
+                13,
+                Utils.totalRank(listOf(Card(Value.KING, Suit.CLUBS)))
+        )
+        assertEquals(
+                5,
+                Utils.totalRank(listOf(
+                        Card(Value.TWO, Suit.SPADES),
+                        Card(Value.THREE, Suit.HEARTS)
+                ))
+        )
+    }
 }

@@ -1,5 +1,7 @@
 package com.anishgeorge.poker
 
+import com.sun.org.apache.xpath.internal.operations.Bool
+
 object Utils {
 
     fun uniqueCards(cards: Cards): Cards = cards.fold(emptyList()) {
@@ -15,4 +17,6 @@ object Utils {
         }
         return true
     }
+
+    fun totalRank(cards: Cards) = cards.fold(0) { acc, card -> acc + card.rank }
 }

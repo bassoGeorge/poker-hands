@@ -4,15 +4,13 @@ class Hand(
         val type: HandType = HandType.HIGH_CARD,
         val participatingCards: Cards
 ) : Comparable<Hand> {
-    val rank get() = type.rank
+    val rank get() =
+        (type.rank * 1000) + (Utils.totalRank(participatingCards) * 100)
+
 
     override fun compareTo(other: Hand): Int = rank - other.rank
 
     /* Standard overrides */
-    override fun toString(): String {
-        return "Hand(type=$type)"
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -20,17 +18,24 @@ class Hand(
         other as Hand
 
         if (type != other.type) return false
+        if (participatingCards != other.participatingCards) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return type.hashCode()
+        var result = type.hashCode()
+        result = 31 * result + participatingCards.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        return "Hand(type=$type, participatingCards=$participatingCards)"
     }
 
 
     companion object {
-        fun findBestHandOf(cardSet: CardSet): Hand {
+        fun bestOf(cardSet: CardSet): Hand {
             return when {
                 cardSet.straights.isNotEmpty() -> Hand(HandType.STRAIGHT, cardSet.straights.first())
                 cardSet.triples.isNotEmpty() -> Hand(HandType.THREE_OF_A_KIND, cardSet.triples.first())
@@ -39,5 +44,8 @@ class Hand(
                 else -> return Hand(HandType.HIGH_CARD, listOf(cardSet.highest()))
             }
         }
+        fun bestOf(vararg cards: Card): Hand = bestOf(CardSet(*cards))
+        fun bestOf(cards: Cards): Hand = bestOf(CardSet(cards))
+
     }
 }

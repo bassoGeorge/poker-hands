@@ -14,7 +14,7 @@ internal class HandTest {
                 Card(Value.THREE, Suit.CLUBS),
                 Card(Value.TWO, Suit.CLUBS)
         )
-        val hand = Hand.findBestHandOf(cardSet)
+        val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.HIGH_CARD, hand.type)
     }
 
@@ -27,7 +27,7 @@ internal class HandTest {
                 Card(Value.THREE, Suit.CLUBS),
                 Card(Value.TWO, Suit.CLUBS)
         )
-        val hand = Hand.findBestHandOf(cardSet)
+        val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.ONE_PAIR, hand.type)
     }
 
@@ -40,7 +40,7 @@ internal class HandTest {
                 Card(Value.QUEEN, Suit.CLUBS),
                 Card(Value.TWO, Suit.CLUBS)
         )
-        val hand = Hand.findBestHandOf(cardSet)
+        val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.TWO_PAIR, hand.type)
     }
 
@@ -53,7 +53,7 @@ internal class HandTest {
                 Card(Value.SEVEN, Suit.CLUBS),
                 Card(Value.TWO, Suit.CLUBS)
         )
-        val hand = Hand.findBestHandOf(cardSet)
+        val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.THREE_OF_A_KIND, hand.type)
     }
 
@@ -68,7 +68,7 @@ internal class HandTest {
                 Card(Value.TEN, Suit.HEARTS),
                 Card(Value.NINE, Suit.DIAMONDS)
         )
-        val hand = Hand.findBestHandOf(cardSet)
+        val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.STRAIGHT, hand.type)
     }
 
@@ -89,35 +89,55 @@ internal class HandTest {
 
     @Test
     fun shouldGiveTheParticipatingCards() {
-        val pair = Hand.findBestHandOf(CardSet(
+        val pair = Hand.bestOf(
                 Card(Value.EIGHT, Suit.SPADES),
                 Card(Value.EIGHT, Suit.CLUBS),
                 Card(Value.ACE, Suit.CLUBS),
                 Card(Value.FIVE, Suit.CLUBS),
                 Card(Value.TWO, Suit.CLUBS)
-        ))
+        )
 
         assertEquals(
-                listOf( Card(Value.EIGHT, Suit.SPADES),
-                Card(Value.EIGHT, Suit.CLUBS)),
+                listOf(Card(Value.EIGHT, Suit.SPADES),
+                        Card(Value.EIGHT, Suit.CLUBS)),
                 pair.participatingCards
         )
 
-        val twoPair = Hand.findBestHandOf(CardSet(
+        val twoPair = Hand.bestOf(
                 Card(Value.EIGHT, Suit.SPADES),
                 Card(Value.EIGHT, Suit.CLUBS),
                 Card(Value.TWO, Suit.CLUBS),
                 Card(Value.FIVE, Suit.CLUBS),
                 Card(Value.TWO, Suit.CLUBS)
-        ))
+        )
 
         assertEquals(
-                listOf( Card(Value.EIGHT, Suit.SPADES),
+                listOf(Card(Value.EIGHT, Suit.SPADES),
                         Card(Value.EIGHT, Suit.CLUBS),
                         Card(Value.TWO, Suit.CLUBS),
                         Card(Value.TWO, Suit.CLUBS)
-                        ),
+                ),
                 twoPair.participatingCards
         )
+    }
+
+    @Test
+    fun shouldHaveCorrectOrderWithinSameTypeOfHand() {
+        val highPair = Hand.bestOf(
+                Card(Value.JACK, Suit.CLUBS),
+                Card(Value.EIGHT, Suit.CLUBS),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.TWO, Suit.HEARTS),
+                Card(Value.ACE, Suit.HEARTS)
+        )
+        val lowPair = Hand.bestOf(
+                Card(Value.THREE, Suit.CLUBS),
+                Card(Value.EIGHT, Suit.CLUBS),
+                Card(Value.THREE, Suit.HEARTS),
+                Card(Value.TWO, Suit.HEARTS),
+                Card(Value.ACE, Suit.HEARTS)
+        )
+
+        assertTrue(highPair > lowPair)
     }
 }
