@@ -1,6 +1,7 @@
 package com.anishgeorge.poker
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class HandTest {
@@ -136,6 +137,27 @@ internal class HandTest {
                 Card(Value.JACK, Suit.DIAMONDS),
                 Card(Value.QUEEN, Suit.SPADES),
                 Card(Value.QUEEN, Suit.DIAMONDS)
+        ), hand.participatingCards)
+    }
+
+    @Test
+    fun shouldGiveFourOfAKind() {
+        val hand = Hand.bestOf(
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.JACK, Suit.DIAMONDS)
+        )
+
+        assertEquals(HandType.FOUR_OF_A_KIND, hand.type)
+        assertEquals(listOf(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.JACK, Suit.DIAMONDS)
         ), hand.participatingCards)
     }
 

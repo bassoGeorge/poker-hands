@@ -1,12 +1,13 @@
 package com.anishgeorge.poker
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class CardSetTest {
 
     @Test
-    fun returnsThePairsInAHand() {
+    fun returnsThePairsInASet() {
         val set = CardSet(
                 Card(Value.JACK, Suit.DIAMONDS),
                 Card(Value.THREE, Suit.CLUBS),
@@ -26,7 +27,7 @@ internal class CardSetTest {
 
 
     @Test
-    fun returnsTheTriplesInAHand() {
+    fun returnsTheTriplesInASet() {
         val set = CardSet(
                 Card(Value.JACK, Suit.DIAMONDS),
                 Card(Value.THREE, Suit.CLUBS),
@@ -40,6 +41,29 @@ internal class CardSetTest {
                         listOf(Card(Value.JACK, Suit.DIAMONDS), Card(Value.JACK, Suit.HEARTS), Card(Value.JACK, Suit.DIAMONDS))
                 ),
                 set.triples
+        )
+    }
+
+    @Test
+    fun returnsTheQuadruplesInASet() {
+        val set = CardSet(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.THREE, Suit.CLUBS),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.JACK, Suit.SPADES),
+                Card(Value.JACK, Suit.DIAMONDS)
+        )
+
+        assertEquals(
+                listOf(
+                        listOf(
+                                Card(Value.JACK, Suit.DIAMONDS),
+                                Card(Value.JACK, Suit.HEARTS),
+                                Card(Value.JACK, Suit.SPADES),
+                                Card(Value.JACK, Suit.DIAMONDS)
+                        )
+                ),
+                set.quadruples
         )
     }
 

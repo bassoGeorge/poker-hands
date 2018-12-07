@@ -11,18 +11,17 @@ class CardSet(unsortedCards: Cards) {
     fun toList(): Cards = cards
     fun inRankGroups(): Map<Value, Cards> = cardGroups
 
-    /* Stat variables */
-    val pairs: List<Cards> by lazy {
-        inRankGroups()
-                .filter { (_, value) -> value.size == 2 }
-                .values.toList()
-    }
+    // TODO: do we need to give pair even if its a triple? or stuff like that.. need to do some checks
+    private fun getSameValueCardsByCount(count: Int): List<Cards> = inRankGroups()
+            .filter { (_, value) -> value.size == count }
+            .values.toList()
 
-    val triples: List<Cards> by lazy {
-        inRankGroups()
-                .filter { (_, value) -> value.size == 3 }
-                .values.toList()
-    }
+    /* Stat variables */
+    val pairs: List<Cards> by lazy { getSameValueCardsByCount(2) }
+
+    val triples: List<Cards> by lazy { getSameValueCardsByCount(3) }
+
+    val quadruples: List<Cards> by lazy { getSameValueCardsByCount(4) }
 
     val straights: List<Cards> by lazy {
         val cards = Utils.uniqueCards(toList())
