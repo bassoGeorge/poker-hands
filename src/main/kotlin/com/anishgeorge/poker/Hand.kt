@@ -41,7 +41,7 @@ class Hand(
                     Hand(HandType.ROYAL_FLUSH, cardSet.straightFlushes.first())
                 cardSet.straightFlushes.isNotEmpty() -> Hand(HandType.STRAIGHT_FLUSH, cardSet.straightFlushes.first())
                 cardSet.quadruples.isNotEmpty() -> Hand(HandType.FOUR_OF_A_KIND, cardSet.quadruples.first())
-                cardSet.triples.isNotEmpty() && cardSet.pairs.isNotEmpty() -> Hand(HandType.FULL_HOUSE, cardSet.triples.first() + cardSet.pairs.first())
+                cardSet.fullHouses.isNotEmpty() -> Hand(HandType.FULL_HOUSE, cardSet.fullHouses.first())
                 cardSet.flushes.isNotEmpty() -> Hand(HandType.FLUSH, cardSet.flushes.first())
                 cardSet.straights.isNotEmpty() -> Hand(HandType.STRAIGHT, cardSet.straights.first())
                 cardSet.triples.isNotEmpty() -> Hand(HandType.THREE_OF_A_KIND, cardSet.triples.first())

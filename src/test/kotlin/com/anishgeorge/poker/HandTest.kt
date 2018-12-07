@@ -127,14 +127,14 @@ internal class HandTest {
                 Card(Value.JACK, Suit.DIAMONDS),
                 Card(Value.KING, Suit.DIAMONDS),
                 Card(Value.JACK, Suit.HEARTS),
-                Card(Value.JACK, Suit.DIAMONDS)
+                Card(Value.JACK, Suit.CLUBS)
         )
 
         assertEquals(HandType.FULL_HOUSE, hand.type)
         assertEquals(listOf(
                 Card(Value.JACK, Suit.DIAMONDS),
                 Card(Value.JACK, Suit.HEARTS),
-                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.CLUBS),
                 Card(Value.QUEEN, Suit.SPADES),
                 Card(Value.QUEEN, Suit.DIAMONDS)
         ), hand.participatingCards)
@@ -218,6 +218,28 @@ internal class HandTest {
                 listOf(highCard, twoPairs, threeOfAKind, straight, flush),
                 hands.sorted()
         )
+    }
+
+    @Test
+    fun shouldGiveFullHouseEvenWhenThereAreTwoTriples() {
+        val hand = Hand.bestOf(
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.HEARTS),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.JACK, Suit.CLUBS)
+        )
+
+        assertEquals(HandType.FULL_HOUSE, hand.type)
+        assertEquals(listOf(
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.HEARTS),
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.HEARTS)
+        ), hand.participatingCards)
     }
 
     @Deprecated("This test was added per TDD. The functionality is now checked with each hand type check tests")

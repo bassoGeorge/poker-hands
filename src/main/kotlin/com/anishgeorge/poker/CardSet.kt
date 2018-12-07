@@ -18,8 +18,9 @@ class CardSet(unsortedCards: Cards) {
 
     // TODO: do we need to give pair even if its a triple? or stuff like that.. need to do some checks
     private fun getSameValueCardsByCount(count: Int): List<Cards> = inRankGroups()
-            .filter { (_, value) -> value.size == count }
+            .filter { (_, value) -> value.size >= count }
             .values.toList()
+            .map { it.take(count) }
 
     /* Stat variables */
     val pairs: List<Cards> by lazy { getSameValueCardsByCount(2) }
@@ -48,6 +49,17 @@ class CardSet(unsortedCards: Cards) {
         val flushSet = flushes.toSet()
         val straightSet = straights.toSet()
         flushSet.intersect(straightSet).toList()
+    }
+
+    val fullHouses: List<Cards> by lazy {
+        if (triples.isEmpty() || pairs.isEmpty()) emptyList<Cards>()
+        else {
+            triples.flatMap { triple ->
+                pairs.filter { pair ->
+                    pair.first().value != triple.first().value
+                }.map { pair -> triple + pair }
+            }
+        }
     }
 
     /* Standard overrides */
