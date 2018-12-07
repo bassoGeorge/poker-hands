@@ -25,7 +25,7 @@ class CardSet(unsortedCards: Cards) {
     }
 
     val straights: List<Cards> by lazy {
-        val cards = Utils.uniqueCards(toList());
+        val cards = Utils.uniqueCards(toList())
         if (cards.size < 5) emptyList()
         else (0..(cards.size - 5))
                 .map { cards.subList(it, it + 5) }
@@ -33,6 +33,8 @@ class CardSet(unsortedCards: Cards) {
     }
 
     // TODO: these flushes don't consider uniqueness of cards, so cannot be used for straight flushes
+    // OR WAIT
+    // Maybe it can be used. Uniqueness in card value is guaranteed as per card deck, so can be checked for straights
     val flushes: List<Cards> by lazy {
         toList()
                 .groupBy { it.suit }
