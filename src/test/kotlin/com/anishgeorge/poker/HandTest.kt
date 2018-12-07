@@ -16,6 +16,7 @@ internal class HandTest {
         )
         val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.HIGH_CARD, hand.type)
+        assertEquals(listOf(Card(Value.JACK, Suit.SPADES)), hand.participatingCards)
     }
 
     @Test
@@ -29,6 +30,10 @@ internal class HandTest {
         )
         val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.ONE_PAIR, hand.type)
+        assertEquals(listOf(
+                Card(Value.SEVEN, Suit.HEARTS),
+                Card(Value.SEVEN, Suit.DIAMONDS)
+        ), hand.participatingCards)
     }
 
     @Test
@@ -42,6 +47,12 @@ internal class HandTest {
         )
         val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.TWO_PAIR, hand.type)
+        assertEquals(listOf(
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.CLUBS),
+                Card(Value.SEVEN, Suit.HEARTS),
+                Card(Value.SEVEN, Suit.DIAMONDS)
+        ), hand.participatingCards)
     }
 
     @Test
@@ -55,6 +66,11 @@ internal class HandTest {
         )
         val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.THREE_OF_A_KIND, hand.type)
+        assertEquals(listOf(
+                Card(Value.SEVEN, Suit.HEARTS),
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.SEVEN, Suit.CLUBS)
+        ), hand.participatingCards)
     }
 
     @Test
@@ -70,6 +86,13 @@ internal class HandTest {
         )
         val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.STRAIGHT, hand.type)
+        assertEquals(listOf(
+                Card(Value.KING, Suit.CLUBS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.JACK, Suit.CLUBS),
+                Card(Value.TEN, Suit.HEARTS),
+                Card(Value.NINE, Suit.DIAMONDS)
+        ), hand.participatingCards)
     }
 
     @Test
@@ -87,6 +110,7 @@ internal class HandTest {
         )
     }
 
+    @Deprecated("This test was added per TDD. The functionality is now checked with each hand type check tests")
     @Test
     fun shouldGiveTheParticipatingCards() {
         val pair = Hand.bestOf(
