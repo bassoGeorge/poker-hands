@@ -14,13 +14,13 @@ class CardSet(unsortedCards: Cards) {
     /* Stat variables */
     val pairs: List<Cards> by lazy {
         inRankGroups()
-                .filter { entry -> entry.value.size == 2 }
+                .filter { (_, value) -> value.size == 2 }
                 .values.toList()
     }
 
     val triples: List<Cards> by lazy {
         inRankGroups()
-                .filter { entry -> entry.value.size == 3 }
+                .filter { (_, value) -> value.size == 3 }
                 .values.toList()
     }
 

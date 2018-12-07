@@ -73,17 +73,51 @@ internal class HandTest {
     }
 
     @Test
-    fun handsHaveCorrectOrder() {
-        val twoPairs = Hand(HandType.TWO_PAIR)
-        val straight = Hand(HandType.STRAIGHT)
-        val highCard = Hand(HandType.HIGH_CARD)
-        val flush = Hand(HandType.FLUSH)
-        val threeOfAKind = Hand(HandType.THREE_OF_A_KIND)
+    fun shouldHaveCorrectOrder() {
+        val twoPairs = Hand(HandType.TWO_PAIR, emptyList())
+        val straight = Hand(HandType.STRAIGHT, emptyList())
+        val highCard = Hand(HandType.HIGH_CARD, emptyList())
+        val flush = Hand(HandType.FLUSH, emptyList())
+        val threeOfAKind = Hand(HandType.THREE_OF_A_KIND, emptyList())
 
         val hands = listOf(twoPairs, straight, highCard, flush, threeOfAKind)
         assertEquals(
                 listOf(highCard, twoPairs, threeOfAKind, straight, flush),
                 hands.sorted()
+        )
+    }
+
+    @Test
+    fun shouldGiveTheParticipatingCards() {
+        val pair = Hand.findBestHandOf(CardSet(
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.EIGHT, Suit.CLUBS),
+                Card(Value.ACE, Suit.CLUBS),
+                Card(Value.FIVE, Suit.CLUBS),
+                Card(Value.TWO, Suit.CLUBS)
+        ))
+
+        assertEquals(
+                listOf( Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.EIGHT, Suit.CLUBS)),
+                pair.participatingCards
+        )
+
+        val twoPair = Hand.findBestHandOf(CardSet(
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.EIGHT, Suit.CLUBS),
+                Card(Value.TWO, Suit.CLUBS),
+                Card(Value.FIVE, Suit.CLUBS),
+                Card(Value.TWO, Suit.CLUBS)
+        ))
+
+        assertEquals(
+                listOf( Card(Value.EIGHT, Suit.SPADES),
+                        Card(Value.EIGHT, Suit.CLUBS),
+                        Card(Value.TWO, Suit.CLUBS),
+                        Card(Value.TWO, Suit.CLUBS)
+                        ),
+                twoPair.participatingCards
         )
     }
 }
