@@ -190,4 +190,30 @@ internal class CardSetTest {
                 set.flushes
         )
     }
+
+    @Test
+    fun returnTheStraightFlushesInACardSet() {
+        val set = CardSet(
+                Card(Value.FOUR, Suit.SPADES),
+                Card(Value.SEVEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.FIVE, Suit.SPADES),
+                Card(Value.SIX, Suit.SPADES),
+                Card(Value.JACK, Suit.HEARTS)
+        )
+
+        assertEquals(
+                listOf(
+                        listOf(
+                                Card(Value.EIGHT, Suit.SPADES),
+                                Card(Value.SEVEN, Suit.SPADES),
+                                Card(Value.SIX, Suit.SPADES),
+                                Card(Value.FIVE, Suit.SPADES),
+                                Card(Value.FOUR, Suit.SPADES)
+                        )
+                ),
+                set.straightFlushes
+        )
+    }
 }

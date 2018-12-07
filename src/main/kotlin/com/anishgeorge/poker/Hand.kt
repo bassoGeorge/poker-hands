@@ -37,6 +37,7 @@ class Hand(
     companion object {
         fun bestOf(cardSet: CardSet): Hand {
             return when {
+                cardSet.straightFlushes.isNotEmpty() -> Hand(HandType.STRAIGHT_FLUSH, cardSet.straightFlushes.first())
                 cardSet.quadruples.isNotEmpty() -> Hand(HandType.FOUR_OF_A_KIND, cardSet.quadruples.first())
                 cardSet.triples.isNotEmpty() && cardSet.pairs.isNotEmpty() -> Hand(HandType.FULL_HOUSE, cardSet.triples.first() + cardSet.pairs.first())
                 cardSet.flushes.isNotEmpty() -> Hand(HandType.FLUSH, cardSet.flushes.first())
@@ -44,7 +45,7 @@ class Hand(
                 cardSet.triples.isNotEmpty() -> Hand(HandType.THREE_OF_A_KIND, cardSet.triples.first())
                 cardSet.pairs.size == 1 -> Hand(HandType.ONE_PAIR, cardSet.pairs.first())
                 cardSet.pairs.size == 2 -> Hand(HandType.TWO_PAIR, cardSet.pairs.flatten())
-                else -> return Hand(HandType.HIGH_CARD, listOf(cardSet.highest()))
+                else -> Hand(HandType.HIGH_CARD, listOf(cardSet.highest()))
             }
         }
         fun bestOf(vararg cards: Card): Hand = bestOf(CardSet(*cards))

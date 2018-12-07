@@ -162,6 +162,28 @@ internal class HandTest {
     }
 
     @Test
+    fun shouldGiveStraightFlush() {
+        val hand = Hand.bestOf(
+                Card(Value.FOUR, Suit.SPADES),
+                Card(Value.SEVEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.FIVE, Suit.SPADES),
+                Card(Value.SIX, Suit.SPADES),
+                Card(Value.JACK, Suit.HEARTS)
+        )
+
+        assertEquals(HandType.STRAIGHT_FLUSH, hand.type)
+        assertEquals(listOf(
+                Card(Value.EIGHT, Suit.SPADES),
+                Card(Value.SEVEN, Suit.SPADES),
+                Card(Value.SIX, Suit.SPADES),
+                Card(Value.FIVE, Suit.SPADES),
+                Card(Value.FOUR, Suit.SPADES)
+        ), hand.participatingCards)
+    }
+
+    @Test
     fun shouldHaveCorrectOrder() {
         val twoPairs = Hand(HandType.TWO_PAIR, emptyList())
         val straight = Hand(HandType.STRAIGHT, emptyList())

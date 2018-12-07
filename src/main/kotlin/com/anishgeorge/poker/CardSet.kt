@@ -42,6 +42,12 @@ class CardSet(unsortedCards: Cards) {
                 .flatMap { flushCards -> (0..(flushCards.size - 5)).map { flushCards.subList(it, it + 5) } }
     }
 
+    val straightFlushes: List<Cards> by lazy {
+        val flushSet = flushes.toSet()
+        val straightSet = straights.toSet()
+        flushSet.intersect(straightSet).toList()
+    }
+
     /* Standard overrides */
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
