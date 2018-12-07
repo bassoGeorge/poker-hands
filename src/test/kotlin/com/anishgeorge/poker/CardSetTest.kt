@@ -76,7 +76,7 @@ internal class CardSetTest {
                 Card(Value.SEVEN, Suit.DIAMONDS)
         )
 
-        assertEquals(emptyList<List<Card>>(), set.straights)
+        assertEquals(emptyList<Cards>(), set.straights)
     }
 
     @Test

@@ -2,12 +2,12 @@ package com.anishgeorge.poker
 
 object HandUtils {
 
-    fun uniqueCards(cards: List<Card>): List<Card> = cards.fold(emptyList()) {
+    fun uniqueCards(cards: Cards): Cards = cards.fold(emptyList()) {
         currentList, card ->
         if (currentList.find { it.rank == card.rank } == null) currentList + card else currentList
     }
 
-    fun areCardsStraightInRank(cards: List<Card>): Boolean {
+    fun areCardsStraightInRank(cards: Cards): Boolean {
         var currentRank = cards.first().rank
         for (card in cards.takeLast(cards.size - 1)) {
             if (currentRank != card.rank + 1) return false
