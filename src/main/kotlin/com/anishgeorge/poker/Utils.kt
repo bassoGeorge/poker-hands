@@ -1,6 +1,6 @@
 package com.anishgeorge.poker
 
-object HandUtils {
+object Utils {
 
     fun uniqueCards(cards: Cards): Cards = cards.fold(emptyList()) {
         currentList, card ->

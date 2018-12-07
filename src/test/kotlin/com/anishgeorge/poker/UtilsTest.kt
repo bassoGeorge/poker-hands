@@ -3,7 +3,7 @@ package com.anishgeorge.poker
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-internal class HandUtilsTest {
+internal class UtilsTest {
 
     @Test
     fun uniqueCardsReturnsCardsUniqueInRankToTheGivenList() {
@@ -16,7 +16,7 @@ internal class HandUtilsTest {
                 Card(Value.NINE, Suit.SPADES)
         )
 
-        val uniques = HandUtils.uniqueCards(cardList)
+        val uniques = Utils.uniqueCards(cardList)
         assertEquals(listOf(
                 Card(Value.JACK, Suit.DIAMONDS),
                 Card(Value.TEN, Suit.CLUBS),
@@ -29,7 +29,7 @@ internal class HandUtilsTest {
 
     @Test
     fun areCardsStraightInRankReturnsTrueForListOfCardsInStraightRankOrder() {
-        assertTrue(HandUtils.areCardsStraightInRank(listOf(
+        assertTrue(Utils.areCardsStraightInRank(listOf(
          Card(Value.QUEEN, Suit.HEARTS),
          Card(Value.JACK, Suit.HEARTS),
          Card(Value.TEN, Suit.DIAMONDS),
@@ -38,7 +38,7 @@ internal class HandUtilsTest {
          Card(Value.SEVEN, Suit.SPADES)
         )))
 
-        assertFalse(HandUtils.areCardsStraightInRank(listOf(
+        assertFalse(Utils.areCardsStraightInRank(listOf(
          Card(Value.QUEEN, Suit.HEARTS),
          Card(Value.SEVEN, Suit.SPADES),
          Card(Value.JACK, Suit.HEARTS),

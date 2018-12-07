@@ -25,11 +25,11 @@ class CardSet(unsortedCards: Cards) {
     }
 
     val straights: List<Cards> by lazy {
-        val cards = HandUtils.uniqueCards(toList());
+        val cards = Utils.uniqueCards(toList());
         if (cards.size < 5) emptyList()
         else (0..(cards.size - 5))
                 .map { cards.subList(it, it + 5) }
-                .filter(HandUtils::areCardsStraightInRank)
+                .filter(Utils::areCardsStraightInRank)
     }
     /* Standard overrides */
     override fun equals(other: Any?): Boolean {
