@@ -16,7 +16,6 @@ class CardSet(unsortedCards: Cards) {
     private fun toList(): Cards = cards
     private fun inRankGroups(): Map<Value, Cards> = cardGroups
 
-    // TODO: do we need to give pair even if its a triple? or stuff like that.. need to do some checks
     private fun getSameValueCardsByCount(count: Int): List<Cards> = inRankGroups()
             .filter { (_, value) -> value.size >= count }
             .values.toList()
@@ -61,6 +60,7 @@ class CardSet(unsortedCards: Cards) {
             }
         }
     }
+    /* End of stat variables */
 
     /* Standard overrides */
     override fun equals(other: Any?): Boolean {
