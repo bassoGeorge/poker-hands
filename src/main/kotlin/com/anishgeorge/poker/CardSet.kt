@@ -1,5 +1,10 @@
 package com.anishgeorge.poker
 
+/* Invariant
+   We rely on the fact that CardSet is only going to be used with a single deck of cards.
+   i.e. there wont be a situation where CardSet will get two exactly same cards, in value and set.
+   Our logic for flush, straight and straight flush relies on this
+ */
 class CardSet(unsortedCards: Cards) {
 
     private val cards = unsortedCards.sortedDescending()
@@ -8,8 +13,8 @@ class CardSet(unsortedCards: Cards) {
     constructor(vararg unsortedCards: Card) : this(unsortedCards.toList())
 
     fun highest(): Card = cards.first()
-    fun toList(): Cards = cards
-    fun inRankGroups(): Map<Value, Cards> = cardGroups
+    private fun toList(): Cards = cards
+    private fun inRankGroups(): Map<Value, Cards> = cardGroups
 
     // TODO: do we need to give pair even if its a triple? or stuff like that.. need to do some checks
     private fun getSameValueCardsByCount(count: Int): List<Cards> = inRankGroups()
@@ -31,9 +36,6 @@ class CardSet(unsortedCards: Cards) {
                 .filter(Utils::areCardsStraightInRank)
     }
 
-    // TODO: these flushes don't consider uniqueness of cards, so cannot be used for straight flushes
-    // OR WAIT
-    // Maybe it can be used. Uniqueness in card value is guaranteed as per card deck, so can be checked for straights
     val flushes: List<Cards> by lazy {
         toList()
                 .groupBy { it.suit }
