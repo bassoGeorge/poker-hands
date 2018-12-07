@@ -133,4 +133,37 @@ internal class CardSetTest {
                 set.straights
         )
     }
+
+    @Test
+    fun returnTheOrderedFlushesInACardSet() {
+        val set = CardSet(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.DIAMONDS),
+                Card(Value.TWO, Suit.DIAMONDS),
+                Card(Value.ACE, Suit.DIAMONDS),
+                Card(Value.FIVE, Suit.DIAMONDS),
+                Card(Value.EIGHT, Suit.DIAMONDS),
+                Card(Value.NINE, Suit.CLUBS)
+        )
+
+        val flush1 = listOf(
+                Card(Value.ACE, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.EIGHT, Suit.DIAMONDS),
+                Card(Value.FIVE, Suit.DIAMONDS)
+        )
+        val flush2 = listOf(
+                Card(Value.QUEEN, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.EIGHT, Suit.DIAMONDS),
+                Card(Value.FIVE, Suit.DIAMONDS),
+                Card(Value.TWO, Suit.DIAMONDS)
+        )
+
+        assertEquals(
+                listOf(flush1, flush2),
+                set.flushes
+        )
+    }
 }
