@@ -97,7 +97,7 @@ internal class HandTest {
 
     @Test
     fun shouldGiveFlush() {
-        val cardSet = CardSet(
+        val hand = Hand.bestOf(
                 Card(Value.SEVEN, Suit.DIAMONDS),
                 Card(Value.QUEEN, Suit.SPADES),
                 Card(Value.QUEEN, Suit.DIAMONDS),
@@ -106,7 +106,6 @@ internal class HandTest {
                 Card(Value.THREE, Suit.HEARTS),
                 Card(Value.NINE, Suit.DIAMONDS)
         )
-        val hand = Hand.bestOf(cardSet)
 
         assertEquals(HandType.FLUSH, hand.type)
         assertEquals(listOf(
@@ -115,6 +114,28 @@ internal class HandTest {
                 Card(Value.JACK, Suit.DIAMONDS),
                 Card(Value.NINE, Suit.DIAMONDS),
                 Card(Value.SEVEN, Suit.DIAMONDS)
+        ), hand.participatingCards)
+    }
+
+    @Test
+    fun shouldGiveFullHouse() {
+        val hand = Hand.bestOf(
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.KING, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.JACK, Suit.DIAMONDS)
+        )
+
+        assertEquals(HandType.FULL_HOUSE, hand.type)
+        assertEquals(listOf(
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.DIAMONDS)
         ), hand.participatingCards)
     }
 
