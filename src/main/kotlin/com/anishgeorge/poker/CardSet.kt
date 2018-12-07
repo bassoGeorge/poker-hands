@@ -51,7 +51,7 @@ class CardSet(unsortedCards: Cards) {
     }
 
     val fullHouses: List<Cards> by lazy {
-        if (triples.isEmpty() || pairs.isEmpty()) emptyList<Cards>()
+        if (triples.isEmpty() || pairs.isEmpty()) emptyList()
         else {
             triples.flatMap { triple ->
                 pairs.filter { pair ->

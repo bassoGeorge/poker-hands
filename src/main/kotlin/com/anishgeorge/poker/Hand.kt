@@ -4,8 +4,9 @@ class Hand(
         val type: HandType = HandType.HIGH_CARD,
         val participatingCards: Cards
 ) : Comparable<Hand> {
-    val rank get() =
-        (type.rank * 1000) + (Utils.totalRank(participatingCards) * 100)
+    val rank
+        get() =
+            (type.rank * 1000) + (Utils.totalRank(participatingCards) * 100)
 
 
     override fun compareTo(other: Hand): Int = rank - other.rank
@@ -35,6 +36,7 @@ class Hand(
 
 
     companion object {
+
         fun bestOf(cardSet: CardSet): Hand {
             return when {
                 cardSet.straightFlushes.isNotEmpty() && cardSet.straightFlushes.first().first().value == Value.ACE ->
@@ -45,12 +47,14 @@ class Hand(
                 cardSet.flushes.isNotEmpty() -> Hand(HandType.FLUSH, cardSet.flushes.first())
                 cardSet.straights.isNotEmpty() -> Hand(HandType.STRAIGHT, cardSet.straights.first())
                 cardSet.triples.isNotEmpty() -> Hand(HandType.THREE_OF_A_KIND, cardSet.triples.first())
-                cardSet.pairs.size == 1 -> Hand(HandType.ONE_PAIR, cardSet.pairs.first())
-                cardSet.pairs.size == 2 -> Hand(HandType.TWO_PAIR, cardSet.pairs.flatten())
+                cardSet.pairs.size >= 2 -> Hand(HandType.TWO_PAIR, cardSet.pairs.take(2).flatten())
+                cardSet.pairs.isNotEmpty() -> Hand(HandType.ONE_PAIR, cardSet.pairs.first())
                 else -> Hand(HandType.HIGH_CARD, listOf(cardSet.highest()))
             }
         }
+
         fun bestOf(vararg cards: Card): Hand = bestOf(CardSet(*cards))
+
         fun bestOf(cards: Cards): Hand = bestOf(CardSet(cards))
 
     }

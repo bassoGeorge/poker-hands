@@ -1,7 +1,6 @@
 package com.anishgeorge.poker
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class HandTest {
@@ -47,6 +46,26 @@ internal class HandTest {
                 Card(Value.TWO, Suit.CLUBS)
         )
         val hand = Hand.bestOf(cardSet)
+        assertEquals(HandType.TWO_PAIR, hand.type)
+        assertEquals(listOf(
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.QUEEN, Suit.CLUBS),
+                Card(Value.SEVEN, Suit.HEARTS),
+                Card(Value.SEVEN, Suit.DIAMONDS)
+        ), hand.participatingCards)
+    }
+
+    @Test
+    fun shouldGiveTwoPairEvenWhenThereAreMoreThanTwo() {
+        val hand = Hand.bestOf(
+                Card(Value.SEVEN, Suit.HEARTS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.CLUBS),
+                Card(Value.THREE, Suit.CLUBS),
+                Card(Value.THREE, Suit.HEARTS),
+                Card(Value.TWO, Suit.CLUBS)
+        )
         assertEquals(HandType.TWO_PAIR, hand.type)
         assertEquals(listOf(
                 Card(Value.QUEEN, Suit.SPADES),
