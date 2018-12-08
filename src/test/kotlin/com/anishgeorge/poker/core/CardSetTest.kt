@@ -1,7 +1,7 @@
-package com.anishgeorge.poker
+package com.anishgeorge.poker.core
 
+import com.anishgeorge.poker.core.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class CardSetTest {
@@ -216,7 +216,7 @@ internal class CardSetTest {
                 set.straightFlushes
         )
     }
-    
+
     @Test
     fun returnTheFullHousesInACardSet() {
         val set = CardSet(

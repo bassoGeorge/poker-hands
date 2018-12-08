@@ -1,4 +1,4 @@
-package com.anishgeorge.poker
+package com.anishgeorge.poker.core
 
 /* Invariant
    We rely on the fact that CardSet is only going to be used with a single deck of cards.

@@ -1,4 +1,4 @@
-package com.anishgeorge.poker
+package com.anishgeorge.poker.core
 
 enum class Value(val rank: Int = 1) {
     ACE(14),

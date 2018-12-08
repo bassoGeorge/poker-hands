@@ -1,4 +1,4 @@
-package com.anishgeorge.poker
+package com.anishgeorge.poker.core
 
 data class Card(val value: Value, val suit: Suit): Comparable<Card> {
     override fun compareTo(other: Card): Int = rank - other.rank

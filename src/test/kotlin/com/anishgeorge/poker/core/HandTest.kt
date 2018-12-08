@@ -1,4 +1,4 @@
-package com.anishgeorge.poker
+package com.anishgeorge.poker.core
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

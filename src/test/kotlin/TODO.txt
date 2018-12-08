@@ -1,2 +1,3 @@
+[ ] Given community cards and two or more pairs of hole cards, which is the best hand?
 [ ] Ace low ranking?
-[ ] Special handling of number card values?
+[ ] Card building from shorthand: KH -> King of Hearts

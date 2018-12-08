@@ -1,6 +1,4 @@
-package com.anishgeorge.poker
-
-import com.sun.org.apache.xpath.internal.operations.Bool
+package com.anishgeorge.poker.core
 
 object Utils {
 

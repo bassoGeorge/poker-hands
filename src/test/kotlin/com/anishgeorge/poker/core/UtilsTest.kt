@@ -1,5 +1,9 @@
-package com.anishgeorge.poker
+package com.anishgeorge.poker.core
 
+import com.anishgeorge.poker.core.Card
+import com.anishgeorge.poker.core.Suit
+import com.anishgeorge.poker.core.Utils
+import com.anishgeorge.poker.core.Value
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -30,21 +34,21 @@ internal class UtilsTest {
     @Test
     fun areCardsStraightInRankReturnsTrueForListOfCardsInStraightRankOrder() {
         assertTrue(Utils.areCardsStraightInRank(listOf(
-         Card(Value.QUEEN, Suit.HEARTS),
-         Card(Value.JACK, Suit.HEARTS),
-         Card(Value.TEN, Suit.DIAMONDS),
-         Card(Value.NINE, Suit.CLUBS),
-         Card(Value.EIGHT, Suit.CLUBS),
-         Card(Value.SEVEN, Suit.SPADES)
+                Card(Value.QUEEN, Suit.HEARTS),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.TEN, Suit.DIAMONDS),
+                Card(Value.NINE, Suit.CLUBS),
+                Card(Value.EIGHT, Suit.CLUBS),
+                Card(Value.SEVEN, Suit.SPADES)
         )))
 
         assertFalse(Utils.areCardsStraightInRank(listOf(
-         Card(Value.QUEEN, Suit.HEARTS),
-         Card(Value.SEVEN, Suit.SPADES),
-         Card(Value.JACK, Suit.HEARTS),
-         Card(Value.NINE, Suit.CLUBS),
-         Card(Value.TEN, Suit.DIAMONDS),
-         Card(Value.EIGHT, Suit.CLUBS)
+                Card(Value.QUEEN, Suit.HEARTS),
+                Card(Value.SEVEN, Suit.SPADES),
+                Card(Value.JACK, Suit.HEARTS),
+                Card(Value.NINE, Suit.CLUBS),
+                Card(Value.TEN, Suit.DIAMONDS),
+                Card(Value.EIGHT, Suit.CLUBS)
         )))
     }
 

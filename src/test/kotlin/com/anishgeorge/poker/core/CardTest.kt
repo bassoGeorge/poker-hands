@@ -1,5 +1,8 @@
-package com.anishgeorge.poker
+package com.anishgeorge.poker.core
 
+import com.anishgeorge.poker.core.Card
+import com.anishgeorge.poker.core.Suit
+import com.anishgeorge.poker.core.Value
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

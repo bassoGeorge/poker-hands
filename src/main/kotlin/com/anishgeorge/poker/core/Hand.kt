@@ -1,4 +1,4 @@
-package com.anishgeorge.poker
+package com.anishgeorge.poker.core
 
 class Hand(
         val type: HandType = HandType.HIGH_CARD,

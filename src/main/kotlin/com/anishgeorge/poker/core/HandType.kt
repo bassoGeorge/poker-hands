@@ -1,4 +1,4 @@
-package com.anishgeorge.poker
+package com.anishgeorge.poker.core
 
 enum class HandType(val rank: Int) {
     ONE_PAIR(0),
