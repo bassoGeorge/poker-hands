@@ -37,7 +37,7 @@ class Hand(
 
     companion object {
 
-        fun bestOf(cardSet: CardSet): Hand {
+        internal fun bestOf(cardSet: CardSet): Hand {
             return when {
                 cardSet.straightFlushes.isNotEmpty() && cardSet.straightFlushes.first().first().value == Value.ACE ->
                     Hand(HandType.ROYAL_FLUSH, cardSet.straightFlushes.first())

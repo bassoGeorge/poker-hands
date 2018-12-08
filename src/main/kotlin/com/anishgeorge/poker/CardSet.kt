@@ -5,7 +5,7 @@ package com.anishgeorge.poker
    i.e. there wont be a situation where CardSet will get two exactly same cards, in value and set.
    Our logic for flush, straight and straight flush relies on this
  */
-class CardSet(unsortedCards: Cards) {
+internal class CardSet(unsortedCards: Cards) {
 
     private val cards = unsortedCards.sortedDescending()
     private val cardGroups = cards.groupBy { it.value }
