@@ -6,14 +6,14 @@ import com.anishgeorge.poker.core.Suit
 import com.anishgeorge.poker.core.Value
 import java.util.*
 
-class Deck private constructor(shuffledCards: Cards) : Collection<Card> {
+class Deck (shuffledCards: Cards) : Collection<Card> {
     private val cards = Stack<Card>()
 
     init {
         cards.addAll(shuffledCards)
     }
 
-    fun draw(): Card = cards.pop()
+    fun drawOne(): Card = cards.pop()
 
     fun draw(size: Int): Cards = (0 until size).map { cards.pop() }
 

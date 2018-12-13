@@ -29,7 +29,7 @@ class DeckTest {
     @Test
     fun shouldBeAbleToDrawACard() {
         val deck = Deck.shuffled()
-        val card: Card = deck.draw()
+        val card: Card = deck.drawOne()
         assertEquals(51, deck.size)
     }
 
