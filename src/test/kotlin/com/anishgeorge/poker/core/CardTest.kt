@@ -62,6 +62,5 @@ internal class CardTest {
         assertEquals(Card(Value.TEN, Suit.HEARTS), "10H".toCard())
         assertEquals(Card(Value.ACE, Suit.DIAMONDS), "AD".toCard())
     }
-
 }
 

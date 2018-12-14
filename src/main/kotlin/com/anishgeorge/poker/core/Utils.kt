@@ -16,4 +16,6 @@ object Utils {
     }
 
     fun totalRank(cards: Cards) = cards.fold(0) { acc, card -> acc + card.rank }
+
+    fun repeat(times: Int, fn: (Int) -> Unit) = (1..times).forEach(fn)
 }

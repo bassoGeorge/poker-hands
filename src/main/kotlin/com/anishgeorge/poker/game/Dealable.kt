@@ -6,8 +6,7 @@ import com.anishgeorge.poker.exceptions.MoreCardsThanAllowedException
 
 abstract class Dealable(protected val maxCardsAllowed: Int) {
     private val _cards = mutableListOf<Card>()
-    val cards: Cards
-        get() = _cards
+    val cards: Cards get() = _cards.toList()
 
 
     fun deal(vararg cards: Card) {

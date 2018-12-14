@@ -3,6 +3,7 @@ package com.anishgeorge.poker.game
 import com.anishgeorge.poker.core.toCard
 import com.anishgeorge.poker.exceptions.NoPlayersPlayingException
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.spyk
@@ -14,37 +15,53 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MockKExtension::class)
 class DealerTest {
 
-    @MockK
+    @RelaxedMockK
     lateinit var community: Community
 
     @MockK
     lateinit var deck: Deck
 
-    @MockK
+    @RelaxedMockK
     lateinit var burns: Burns
 
     @Test
     fun shouldBeAbleToAddPlayersToGame() {
-        val game = Dealer(deck, community, burns)
-        assertTrue(game.players.isEmpty())
+        val dealer = Dealer(deck, community, burns)
+        assertTrue(dealer.players.isEmpty())
         val p1 = mockk<Player>()
         val p2 = mockk<Player>()
 
-        game.addPlayer(p1).addPlayer(p2)
+        dealer.addPlayer(p1).addPlayer(p2)
 
-        assertEquals(listOf(p1, p2), game.players)
+        assertEquals(listOf(p1, p2), dealer.players)
+    }
+
+    @Test
+    fun shouldNotBeAbleToModifyPlayersFromOutside() {
+        val dealer = Dealer(deck, community, burns)
+        val p1 = mockk<Player>()
+        val p2 = mockk<Player>()
+
+        dealer.addPlayer(p1)
+
+        assertEquals(1, dealer.players.size)
+        val players = dealer.players as MutableList<Player>
+        assertThrows(UnsupportedOperationException::class.java) {
+            players.add(p2)
+        }
+        assertEquals(1, dealer.players.size)
     }
 
     @Test
     fun dealPlayersShouldThrowWhenLessThan2PlayersAreAddedToGame() {
-        val game = Dealer(deck, community, burns)
+        val dealer = Dealer(deck, community, burns)
         assertThrows(NoPlayersPlayingException::class.java) {
-            game.dealPlayers()
+            dealer.dealPlayers()
         }
         val player = mockk<Player>()
-        game.addPlayer(player)
+        dealer.addPlayer(player)
         assertThrows(NoPlayersPlayingException::class.java) {
-            game.dealPlayers()
+            dealer.dealPlayers()
         }
     }
 
@@ -59,14 +76,14 @@ class DealerTest {
                 Deck(listOf(c1, c2, c3, c4))
         )
 
-        val game = Dealer(deck, community, burns)
+        val dealer = Dealer(deck, community, burns)
 
         val p1 = mockk<Player>(relaxed = true)
         val p2 = mockk<Player>(relaxed = true)
 
-        game.addPlayer(p1).addPlayer(p2)
+        dealer.addPlayer(p1).addPlayer(p2)
 
-        game.dealPlayers()
+        dealer.dealPlayers()
 
         verify { p1.deal(c1) }
         verify { p1.deal(c3) }
@@ -74,4 +91,49 @@ class DealerTest {
         verify { p2.deal(c2) }
         verify { p2.deal(c4) }
     }
+
+    @Test
+    fun dealFlopShouldBurn1CardAndDeal3CardsToCommunity() {
+        val pack = listOf("AS", "KC", "7S", "2D").map(String::toCard)
+        val deck = spyk(Deck(pack))
+
+        val dealer = Dealer(deck, community, burns)
+        dealer.dealFlop()
+
+        verify { burns.deal(pack[0]) }
+        verify { community.deal(pack[1]) }
+        verify { community.deal(pack[2]) }
+        verify { community.deal(pack[3]) }
+
+        verify(exactly = 4) { deck.drawOne() }
+    }
+
+    @Test
+    fun dealRiverShouldBurn1CardAndDeal1CardToCommunity() {
+        val pack = listOf("AS", "KC").map(String::toCard)
+        val deck = spyk(Deck(pack))
+
+        val dealer = Dealer(deck, community, burns)
+        dealer.dealRiver()
+
+        verify { burns.deal(pack[0]) }
+        verify { community.deal(pack[1]) }
+
+        verify(exactly = 2) { deck.drawOne() }
+    }
+
+    @Test
+    fun dealTurnShouldBurn1CardAndDeal1CardToCommunity() {
+        val pack = listOf("AS", "KC").map(String::toCard)
+        val deck = spyk(Deck(pack))
+
+        val dealer = Dealer(deck, community, burns)
+        dealer.dealTurn()
+
+        verify { burns.deal(pack[0]) }
+        verify { community.deal(pack[1]) }
+
+        verify(exactly = 2) { deck.drawOne() }
+    }
+
 }
