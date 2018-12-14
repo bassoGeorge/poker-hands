@@ -1,3 +1,4 @@
-[ ] Given community cards and two or more pairs of hole cards, which is the best hand?
 [ ] Ace low ranking?
-[ ] Card building from shorthand: KH -> King of Hearts
+[ ] A table with community, burns, dealer and players
+[ ] Table.simulateGame()
+[ ] Winner and Draws?

@@ -1,7 +1,7 @@
 package com.anishgeorge.poker.game
 
 import com.anishgeorge.poker.core.toCard
-import com.anishgeorge.poker.exceptions.NoPlayersPlayingException
+import com.anishgeorge.poker.exceptions.TooFewPlayersPlayingException
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
@@ -55,12 +55,12 @@ class DealerTest {
     @Test
     fun dealPlayersShouldThrowWhenLessThan2PlayersAreAddedToGame() {
         val dealer = Dealer(deck, community, burns)
-        assertThrows(NoPlayersPlayingException::class.java) {
+        assertThrows(TooFewPlayersPlayingException::class.java) {
             dealer.dealPlayers()
         }
         val player = mockk<Player>()
         dealer.addPlayer(player)
-        assertThrows(NoPlayersPlayingException::class.java) {
+        assertThrows(TooFewPlayersPlayingException::class.java) {
             dealer.dealPlayers()
         }
     }

@@ -1,7 +1,7 @@
 package com.anishgeorge.poker.game
 
 import com.anishgeorge.poker.core.Utils.repeat
-import com.anishgeorge.poker.exceptions.NoPlayersPlayingException
+import com.anishgeorge.poker.exceptions.TooFewPlayersPlayingException
 
 class Dealer(private val deck: Deck, val community: Community, val burns: Burns) {
     private val _players = mutableListOf<Player>()
@@ -14,7 +14,7 @@ class Dealer(private val deck: Deck, val community: Community, val burns: Burns)
     }
 
     fun dealPlayers() {
-        if (players.size < 2) throw NoPlayersPlayingException()
+        if (players.size < 2) throw TooFewPlayersPlayingException()
         repeat(2) {
             players.forEach(::dealOutACard)
         }
