@@ -1,8 +1,6 @@
 package com.anishgeorge.poker.game
 
-import com.anishgeorge.poker.core.Card
-import com.anishgeorge.poker.core.Suit
-import com.anishgeorge.poker.core.Value
+import com.anishgeorge.poker.core.toCard
 import com.anishgeorge.poker.exceptions.NoPlayersPlayingException
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -52,10 +50,10 @@ class DealerTest {
 
     @Test
     fun dealPlayersShouldDealOut2CardsInRoundRobinFashionToEachPlayer() {
-        val c1 = Card(Value.ACE, Suit.SPADES)
-        val c2 = Card(Value.KING, Suit.CLUBS)
-        val c3 = Card(Value.SEVEN, Suit.SPADES)
-        val c4 = Card(Value.TWO, Suit.DIAMONDS)
+        val c1 = "AS".toCard()
+        val c2 = "KC".toCard()
+        val c3 = "7S".toCard()
+        val c4 = "2D".toCard()
 
         val deck = spyk(
                 Deck(listOf(c1, c2, c3, c4))

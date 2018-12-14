@@ -48,4 +48,20 @@ internal class CardTest {
         assertTrue(card2 > card1)
     }
 
+
+    @Test
+    fun shouldBeAbleToCreateFromShort() {
+        assertEquals(Card(Value.TWO, Suit.CLUBS), Card.fromShort("2C"))
+        assertEquals(Card(Value.TEN, Suit.HEARTS), Card.fromShort("10H"))
+        assertEquals(Card(Value.ACE, Suit.DIAMONDS), Card.fromShort("AD"))
+    }
+
+    @Test
+    fun shouldBeAbleToCreateFromShortUsingString() {
+        assertEquals(Card(Value.TWO, Suit.CLUBS), "2C".toCard())
+        assertEquals(Card(Value.TEN, Suit.HEARTS), "10H".toCard())
+        assertEquals(Card(Value.ACE, Suit.DIAMONDS), "AD".toCard())
+    }
+
 }
+
