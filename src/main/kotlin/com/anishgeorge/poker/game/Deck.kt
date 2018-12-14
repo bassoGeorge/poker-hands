@@ -10,7 +10,7 @@ class Deck (shuffledCards: Cards) : Collection<Card> {
     private val cards = Stack<Card>()
 
     init {
-        cards.addAll(shuffledCards)
+        cards.addAll(shuffledCards.reversed())
     }
 
     fun drawOne(): Card = cards.pop()

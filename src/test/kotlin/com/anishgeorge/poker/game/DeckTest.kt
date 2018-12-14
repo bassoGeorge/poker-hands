@@ -6,6 +6,7 @@ import com.anishgeorge.poker.core.Suit
 import com.anishgeorge.poker.core.Value
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import kotlin.reflect.jvm.internal.ReflectProperties
 
 class DeckTest {
     @Test
@@ -39,5 +40,34 @@ class DeckTest {
         val cards: Cards = deck.draw(3)
         assertEquals(3, cards.size)
         assertEquals(52 - 3, deck.size)
+    }
+
+    @Test
+    fun shouldDrawCorrectly() {
+        val c1 = Card(Value.SEVEN, Suit.DIAMONDS)
+        val c2 = Card(Value.TWO, Suit.SPADES)
+        val c3 = Card(Value.THREE, Suit.CLUBS)
+        val deck = Deck(listOf(
+                c1,
+                c2,
+                c3
+        ))
+        assertEquals(c1, deck.drawOne())
+        assertEquals(c2, deck.drawOne())
+        assertEquals(c3, deck.drawOne())
+    }
+
+    @Test
+    fun shouldDrawCorrectlyForMultiple() {
+        val c1 = Card(Value.SEVEN, Suit.DIAMONDS)
+        val c2 = Card(Value.TWO, Suit.SPADES)
+        val c3 = Card(Value.THREE, Suit.CLUBS)
+        val deck = Deck(listOf(
+                c1,
+                c2,
+                c3
+        ))
+        assertEquals(listOf(c1, c2, c3), deck.draw(3))
+
     }
 }

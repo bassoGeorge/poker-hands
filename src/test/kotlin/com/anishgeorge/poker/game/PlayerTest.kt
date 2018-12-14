@@ -3,6 +3,7 @@ package com.anishgeorge.poker.game
 import com.anishgeorge.poker.core.Card
 import com.anishgeorge.poker.core.Suit
 import com.anishgeorge.poker.core.Value
+import com.anishgeorge.poker.exceptions.MoreCardsThanAllowedException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -31,7 +32,7 @@ class PlayerTest {
     @Test
     fun shouldBeUnableToDealMoreThan2CardsToAPlayer() {
         val player = Player("Someone")
-        assertThrows(IllegalStateException::class.java) {
+        assertThrows(MoreCardsThanAllowedException::class.java) {
             player.deal(
                     Card(Value.ACE, Suit.CLUBS),
                     Card(Value.NINE, Suit.HEARTS),

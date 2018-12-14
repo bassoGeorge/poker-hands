@@ -3,6 +3,7 @@ package com.anishgeorge.poker.game
 import com.anishgeorge.poker.core.Card
 import com.anishgeorge.poker.core.Suit
 import com.anishgeorge.poker.core.Value
+import com.anishgeorge.poker.exceptions.MoreCardsThanAllowedException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -27,7 +28,7 @@ class CommunityTest {
                 Card(Value.EIGHT, Suit.CLUBS)
         )
 
-        assertThrows(IllegalStateException::class.java) {
+        assertThrows(MoreCardsThanAllowedException::class.java) {
             community.deal(Card(Value.FOUR, Suit.SPADES))
         }
     }
