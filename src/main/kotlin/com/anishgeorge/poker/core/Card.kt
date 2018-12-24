@@ -37,3 +37,4 @@ data class Card(val value: Value, val suit: Suit) : Comparable<Card> {
 
 fun String.toCard(): Card = Card.fromShort(this)
 
+fun cardListOf(vararg cardShots: String) = cardShots.map(String::toCard)

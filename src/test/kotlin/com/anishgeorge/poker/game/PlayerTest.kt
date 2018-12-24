@@ -1,10 +1,11 @@
 package com.anishgeorge.poker.game
 
-import com.anishgeorge.poker.core.Card
-import com.anishgeorge.poker.core.Suit
-import com.anishgeorge.poker.core.Value
+import com.anishgeorge.poker.core.*
 import com.anishgeorge.poker.exceptions.MoreCardsThanAllowedException
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class PlayerTest {
@@ -39,5 +40,15 @@ class PlayerTest {
                     Card(Value.EIGHT, Suit.HEARTS)
             )
         }
+    }
+
+    @Test
+    fun shouldBeAbleToAddHandToAPlayer() {
+        val player = Player("Someone")
+
+        val hand = mockk<Hand>()
+
+        player.setHand(hand)
+        assertEquals(hand, player.hand)
     }
 }

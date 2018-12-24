@@ -1,8 +1,5 @@
 package com.anishgeorge.poker.core
 
-import com.anishgeorge.poker.core.Card
-import com.anishgeorge.poker.core.Suit
-import com.anishgeorge.poker.core.Value
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -62,5 +59,13 @@ internal class CardTest {
         assertEquals(Card(Value.TEN, Suit.HEARTS), "10H".toCard())
         assertEquals(Card(Value.ACE, Suit.DIAMONDS), "AD".toCard())
     }
-}
 
+    @Test
+    fun shouldBeAbleToCreateListOfCardsUsingStringToCard() {
+        assertEquals(
+                listOf(Card(Value.TWO, Suit.CLUBS), Card(Value.TEN, Suit.HEARTS)),
+                cardListOf("2C", "10H")
+        )
+    }
+
+}
