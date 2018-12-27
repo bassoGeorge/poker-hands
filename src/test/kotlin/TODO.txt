@@ -1,4 +1,7 @@
 [ ] Ace low ranking?
-[ ] A table with community, burns, dealer and players
-[ ] Table.simulateGame()
-[ ] Winner and Draws?
+[x] A table with dealer
+[x] Table.play()
+[x] Winner
+[x] Ties
+[x] Player to figure out own hand
+[ ] Players not aware of community beforehand

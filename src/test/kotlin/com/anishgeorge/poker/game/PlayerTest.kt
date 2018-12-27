@@ -43,12 +43,16 @@ class PlayerTest {
     }
 
     @Test
-    fun shouldBeAbleToAddHandToAPlayer() {
+    fun shouldFigureOutTheirOwnHand() {
         val player = Player("Someone")
+        player.deal("AS".toCard())
+        player.deal("5C".toCard())
 
-        val hand = mockk<Hand>()
+        val community = mockk<Community>()
+        every { community.cards } returns cardListOf("KC", "AH", "5S")
 
-        player.setHand(hand)
-        assertEquals(hand, player.hand)
+        player.figureBestHand(community)
+
+        assertEquals(HandType.TWO_PAIR, player.hand.type)
     }
 }

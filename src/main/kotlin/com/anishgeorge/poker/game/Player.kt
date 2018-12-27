@@ -10,7 +10,7 @@ class Player(val name: String) : Dealable(2) {
     val hand: Hand
         get() = _hand
 
-    fun setHand(hand: Hand) {
-        _hand = hand
+    fun figureBestHand(community: Community) {
+        _hand = Hand.bestOf(cards + community.cards)
     }
 }

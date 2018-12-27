@@ -2,6 +2,7 @@ package com.anishgeorge.poker.game
 
 import com.anishgeorge.poker.core.Hand
 import com.anishgeorge.poker.core.HandType
+import com.anishgeorge.poker.core.cardListOf
 import com.anishgeorge.poker.core.toCard
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
@@ -53,15 +54,14 @@ class TableTest {
     }
 
     @Test
-    fun shouldCorrectlyIdentifyWinner() {
+    fun shouldCorrectlyIdentifyWinners() {
         val p1 = mockk<Player>(relaxed = true)
         val p2 = mockk<Player>(relaxed = true)
         val p3 = mockk<Player>(relaxed = true)
 
-        every { community.cards } returns listOf("3H", "4C", "KS").map(String::toCard)
-        every { p1.cards } returns listOf("KD", "3D").map(String::toCard)
-        every { p2.cards } returns listOf("5D", "3C").map(String::toCard)
-        every { p3.cards } returns listOf("5H", "AD").map(String::toCard)
+        every { p1.hand } returns Hand(HandType.ONE_PAIR, emptyList())
+        every { p2.hand } returns Hand(HandType.THREE_OF_A_KIND, emptyList())
+        every { p3.hand } returns Hand(HandType.HIGH_CARD, emptyList())
 
         every { dealer.community } returns community
         every { dealer.players } returns listOf(p1, p2, p3)
@@ -69,13 +69,33 @@ class TableTest {
         val table = Table(dealer)
         table.play()
 
-        val winHandSlot = slot<Hand>()
+        val winners = table.findWinners()
 
-        every { p1.setHand(capture(winHandSlot)) } returns Unit
+        assertEquals(listOf(p2), winners)
 
-        val winner = table.findWinner()
+        verify { p1.figureBestHand(community) }
+        verify { p2.figureBestHand(community) }
+        verify { p3.figureBestHand(community) }
+    }
 
-        assertEquals(p1, winner)
-        assertEquals(HandType.TWO_PAIR, winHandSlot.captured.type)
+    @Test
+    fun shouldCorrectlyIdentifyWinnersWhoAreTied() {
+        val p1 = mockk<Player>(relaxed = true)
+        val p2 = mockk<Player>(relaxed = true)
+        val p3 = mockk<Player>(relaxed = true)
+
+        every { p1.hand } returns Hand(HandType.TWO_PAIR, emptyList())
+        every { p2.hand } returns Hand(HandType.TWO_PAIR, emptyList())
+        every { p3.hand } returns Hand(HandType.HIGH_CARD, emptyList())
+
+        every { dealer.community } returns community
+        every { dealer.players } returns listOf(p1, p2, p3)
+
+        val table = Table(dealer)
+        table.play()
+
+        val winners = table.findWinners()
+
+        assertEquals(listOf(p1, p2), winners)
     }
 }
