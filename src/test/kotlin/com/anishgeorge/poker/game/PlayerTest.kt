@@ -4,6 +4,8 @@ import com.anishgeorge.poker.core.*
 import com.anishgeorge.poker.exceptions.MoreCardsThanAllowedException
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -54,5 +56,17 @@ class PlayerTest {
         player.figureBestHand(community)
 
         assertEquals(HandType.TWO_PAIR, player.hand.type)
+    }
+
+    @Test
+    fun shouldBeAbleToNotifyPlayerOfCommunityChanges() {
+        val player = spyk(Player("player"))
+
+        player.deal("KS".toCard(), "2H".toCard())
+        val community = mockk<Community>()
+        every { community.cards } returns cardListOf("3D", "2S", "5C")
+
+        player.notifyCommunityChange(community)
+        verify { player.figureBestHand(community) }
     }
 }

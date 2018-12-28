@@ -72,10 +72,6 @@ class TableTest {
         val winners = table.findWinners()
 
         assertEquals(listOf(p2), winners)
-
-        verify { p1.figureBestHand(community) }
-        verify { p2.figureBestHand(community) }
-        verify { p3.figureBestHand(community) }
     }
 
     @Test

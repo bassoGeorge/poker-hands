@@ -13,4 +13,8 @@ class Player(val name: String) : Dealable(2) {
     fun figureBestHand(community: Community) {
         _hand = Hand.bestOf(cards + community.cards)
     }
+
+    fun notifyCommunityChange(community: Community) {
+        figureBestHand(community)
+    }
 }

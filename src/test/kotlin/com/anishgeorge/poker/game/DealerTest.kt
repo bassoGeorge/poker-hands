@@ -136,4 +136,23 @@ class DealerTest {
         verify(exactly = 2) { deck.drawOne() }
     }
 
+    @Test
+    fun dealingTheFlopRiverOrTurnShouldAlwaysNotifyThePlayersOfTheChangeInCommunity() {
+        val dealer = Dealer(Deck.shuffled(), community, burns)
+        val p1 = mockk<Player>(relaxed = true)
+        val p2 = mockk<Player>(relaxed = true)
+        dealer.addPlayer(p1).addPlayer(p2)
+
+        dealer.dealFlop()
+        verify { p1.notifyCommunityChange(dealer.community) }
+        verify { p2.notifyCommunityChange(dealer.community) }
+
+        dealer.dealTurn()
+        verify { p1.notifyCommunityChange(dealer.community) }
+        verify { p2.notifyCommunityChange(dealer.community) }
+
+        dealer.dealRiver()
+        verify { p1.notifyCommunityChange(dealer.community) }
+        verify { p2.notifyCommunityChange(dealer.community) }
+    }
 }

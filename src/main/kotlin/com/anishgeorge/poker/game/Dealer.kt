@@ -20,16 +20,27 @@ class Dealer(private val deck: Deck, val community: Community, val burns: Burns)
         }
     }
 
-    fun dealFlop() = burnOneAndDraw(3)
+    fun dealFlop() {
+        burnOneAndDraw(3)
+        notifyPlayersOfCommunityChange()
+    }
 
-    fun dealRiver() = burnOneAndDraw(1)
+    fun dealRiver() {
+        burnOneAndDraw(1)
+        notifyPlayersOfCommunityChange()
+    }
 
-    fun dealTurn() = burnOneAndDraw(1)
+    fun dealTurn() {
+        burnOneAndDraw(1)
+        notifyPlayersOfCommunityChange()
+    }
 
     private fun burnOneAndDraw(count: Int) {
         dealOutACard(burns)
         repeat(count) { dealOutACard(community) }
     }
+
+    private fun notifyPlayersOfCommunityChange() = players.forEach { it.notifyCommunityChange(community) }
 
     private fun dealOutACard(to: Dealable) = to.deal(deck.drawOne())
 }

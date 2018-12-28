@@ -24,10 +24,6 @@ class Table(private val dealer: Dealer) {
     }
 
     fun findWinners(): List<Player> {
-        players.forEach { it.figureBestHand(community) }
-        // NOTE: Players should not wait to figure best hand..., maybe during river and turn
-        // NOTE*2: Why are players not aware of the community? Seems weird
-
         return players
                 .groupBy { it.hand.rank }
                 .toSortedMap(Comparator { rank1, rank2 -> rank2 - rank1 }) // Descending sort on keys (ranks)
