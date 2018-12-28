@@ -315,4 +315,26 @@ internal class HandTest {
 
         assertTrue(highPair > lowPair)
     }
+
+
+    @Test
+    fun handsAreOrderedAsPerHandType() {
+        val orderedHands = listOf(
+                Hand(HandType.HIGH_CARD, emptyList()),
+                Hand(HandType.ONE_PAIR, emptyList()),
+                Hand(HandType.TWO_PAIR, emptyList()),
+                Hand(HandType.THREE_OF_A_KIND, emptyList()),
+                Hand(HandType.STRAIGHT, emptyList()),
+                Hand(HandType.FLUSH, emptyList()),
+                Hand(HandType.FULL_HOUSE, emptyList()),
+                Hand(HandType.FOUR_OF_A_KIND, emptyList()),
+                Hand(HandType.STRAIGHT_FLUSH, emptyList()),
+                Hand(HandType.ROYAL_FLUSH, emptyList())
+        )
+
+        val shuffledHands = orderedHands.shuffled()
+
+        assertEquals(orderedHands, shuffledHands.sorted())
+
+    }
 }

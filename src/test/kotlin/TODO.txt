@@ -5,3 +5,4 @@
 [x] Ties
 [x] Player to figure out own hand
 [ ] Players not aware of community beforehand
+[ ] When should a player compute his/her hand? dealer initiates it on flop/turn/river? Player listens to events on community?

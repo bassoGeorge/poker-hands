@@ -18,8 +18,8 @@ class Table(private val dealer: Dealer) {
         _isOpen = false
         dealer.dealPlayers()
         dealer.dealFlop()
-        dealer.dealRiver()
         dealer.dealTurn()
+        dealer.dealRiver()
         return this
     }
 

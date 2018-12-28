@@ -1,8 +1,8 @@
 package com.anishgeorge.poker.core
 
 enum class HandType(val rank: Int) {
-    ONE_PAIR(0),
-    HIGH_CARD(1),
+    HIGH_CARD(0),
+    ONE_PAIR(1),
     TWO_PAIR(2),
     THREE_OF_A_KIND(3),
     STRAIGHT(4),
