@@ -63,4 +63,34 @@ class TableIntegrationTest {
         assertEquals(listOf(p3), winners)
 
     }
+
+    @Test
+    fun oneGameWinnerUsingAceLowRanking() {
+        // straight > 3 of a kind > 1 pair
+        val cards = cardListOf(
+
+                // p1 | p2 | p3
+                "AC", "AD", "5H",
+                "3D", "AS", "KC",
+
+                "8H",               // burn 1
+                "4H", "5C", "10S",  // flop
+                "8D",               // burn 2
+                "2D",               // turn
+                "8S",               // burn 3,
+                "AH"                // river
+        )
+
+        val table = playATableWithCards(cards)
+
+        // Code smell, unless we find winners, players do not compute their hands... weird
+        val winners = table.findWinners()
+
+        assertEquals(HandType.STRAIGHT, p1.hand.type)
+        assertEquals(HandType.THREE_OF_A_KIND, p2.hand.type)
+        assertEquals(HandType.ONE_PAIR, p3.hand.type)
+
+        assertEquals(listOf(p1), winners)
+
+    }
 }

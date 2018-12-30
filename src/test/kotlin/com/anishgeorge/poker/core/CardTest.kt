@@ -24,6 +24,12 @@ internal class CardTest {
     }
 
     @Test
+    fun shouldGiveTheAceLowRankOfTheCard() {
+        assertEquals(10, Card(Value.TEN, Suit.CLUBS).aceLowRank)
+        assertEquals(1, Card(Value.ACE, Suit.CLUBS).aceLowRank)
+    }
+
+    @Test
     fun shouldBeAbleToFindTheSameRankedCards() {
         assertTrue(Card.areSameRanks(Card(Value.TWO, Suit.CLUBS), Card(Value.TWO, Suit.HEARTS)))
         assertFalse(Card.areSameRanks(Card(Value.TWO, Suit.CLUBS), Card(Value.ACE, Suit.HEARTS)))

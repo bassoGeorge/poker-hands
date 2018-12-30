@@ -1,7 +1,9 @@
 package com.anishgeorge.poker.core
 
 enum class Value(val rank: Int = 1, short: String? = null) {
-    ACE(14, "A"),
+    ACE(14, "A") {
+        override val aceLowRank = 1
+    },
     KING(13, "K"),
     QUEEN(12, "Q"),
     JACK(11, "J"),
@@ -16,6 +18,7 @@ enum class Value(val rank: Int = 1, short: String? = null) {
     TWO(2);
 
     val short = short ?: rank.toString()
+    open val aceLowRank get() = rank
 
     companion object {
         private val shortHandMap = values().map { Pair(it.short, it) }.toMap()

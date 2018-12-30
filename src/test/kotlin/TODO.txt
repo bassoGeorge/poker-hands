@@ -1,4 +1,7 @@
-[ ] Ace low ranking?
+[x] Ace low ranking?
+[x] Straight flush for ace low
+[x] Hand rank when acelow
+[x] Hand net rank tests
 [x] A table with dealer
 [x] Table.play()
 [x] Winner
@@ -7,3 +10,4 @@
 [ ] Players not aware of community beforehand
  -  When should a player compute his/her hand? dealer initiates it on flop/turn/river? Player listens to events on community?
 [x] Dealer initiated player hand checks
+

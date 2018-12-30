@@ -6,6 +6,7 @@ data class Card(val value: Value, val suit: Suit) : Comparable<Card> {
     override fun compareTo(other: Card): Int = rank - other.rank
 
     val rank get() = value.rank
+    val aceLowRank get() = value.aceLowRank
 
     companion object {
 

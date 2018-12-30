@@ -116,6 +116,29 @@ internal class HandTest {
     }
 
     @Test
+    fun shouldGiveStraightForAceLowStraight() {
+        val cardSet = CardSet(
+                Card(Value.FIVE, Suit.HEARTS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.THREE, Suit.DIAMONDS),
+                Card(Value.TWO, Suit.CLUBS),
+                Card(Value.FOUR, Suit.CLUBS),
+                Card(Value.ACE, Suit.HEARTS),
+                Card(Value.NINE, Suit.DIAMONDS)
+        )
+        val hand = Hand.bestOf(cardSet)
+        assertEquals(HandType.STRAIGHT, hand.type)
+        assertEquals(listOf(
+                Card(Value.FIVE, Suit.HEARTS),
+                Card(Value.FOUR, Suit.CLUBS),
+                Card(Value.THREE, Suit.DIAMONDS),
+                Card(Value.TWO, Suit.CLUBS),
+                Card(Value.ACE, Suit.HEARTS)
+        ), hand.participatingCards)
+        assertTrue(hand.isAceLow)
+    }
+
+    @Test
     fun shouldGiveFlush() {
         val hand = Hand.bestOf(
                 Card(Value.SEVEN, Suit.DIAMONDS),
@@ -200,6 +223,29 @@ internal class HandTest {
                 Card(Value.FIVE, Suit.SPADES),
                 Card(Value.FOUR, Suit.SPADES)
         ), hand.participatingCards)
+    }
+
+    @Test
+    fun shouldGiveStraightFlushForAceLow() {
+        val hand = Hand.bestOf(
+                Card(Value.FOUR, Suit.SPADES),
+                Card(Value.ACE, Suit.SPADES),
+                Card(Value.TWO, Suit.SPADES),
+                Card(Value.THREE, Suit.SPADES),
+                Card(Value.FIVE, Suit.SPADES),
+                Card(Value.NINE, Suit.SPADES),
+                Card(Value.JACK, Suit.HEARTS)
+        )
+
+        assertEquals(HandType.STRAIGHT_FLUSH, hand.type)
+        assertEquals(listOf(
+                Card(Value.FIVE, Suit.SPADES),
+                Card(Value.FOUR, Suit.SPADES),
+                Card(Value.THREE, Suit.SPADES),
+                Card(Value.TWO, Suit.SPADES),
+                Card(Value.ACE, Suit.SPADES)
+        ), hand.participatingCards)
+        assertTrue(hand.isAceLow)
     }
 
     @Test
@@ -316,7 +362,6 @@ internal class HandTest {
         assertTrue(highPair > lowPair)
     }
 
-
     @Test
     fun handsAreOrderedAsPerHandType() {
         val orderedHands = listOf(
@@ -336,5 +381,59 @@ internal class HandTest {
 
         assertEquals(orderedHands, shuffledHands.sorted())
 
+    }
+
+    @Test
+    fun shouldDecideItselfWhetherItIsAceLowRanking() {
+        val aceHighStraight = Hand(HandType.STRAIGHT, listOf(
+                Card(Value.ACE, Suit.HEARTS),
+                Card(Value.KING, Suit.HEARTS),
+                Card(Value.QUEEN, Suit.HEARTS),
+                Card(Value.JACK, Suit.CLUBS),
+                Card(Value.TEN, Suit.CLUBS)
+        ))
+        assertFalse(aceHighStraight.isAceLow)
+
+        val aceLowStraight = Hand(HandType.STRAIGHT, listOf(
+                Card(Value.FIVE, Suit.CLUBS),
+                Card(Value.FOUR, Suit.CLUBS),
+                Card(Value.THREE, Suit.HEARTS),
+                Card(Value.TWO, Suit.HEARTS),
+                Card(Value.ACE, Suit.HEARTS)
+        ))
+
+        assertTrue(aceLowStraight.isAceLow)
+    }
+
+    @Test
+    fun shouldComputeCorrectRankForFullHands() {
+        val aceHighStraight = Hand.bestOf(listOf(
+                Card(Value.ACE, Suit.CLUBS),
+                Card(Value.TEN, Suit.SPADES),
+                Card(Value.KING, Suit.DIAMONDS),
+                Card(Value.JACK, Suit.CLUBS),
+                Card(Value.QUEEN, Suit.HEARTS)
+        ))
+
+        val typeRank = 4 * 10000
+        val participatingCardsNetRank = 60 * 100
+
+        assertEquals(typeRank + participatingCardsNetRank, aceHighStraight.rank)
+    }
+
+    @Test
+    fun shouldComputeCorrectRankForFullAceLowHand() {
+        val aceHighStraight = Hand.bestOf(listOf(
+                Card(Value.ACE, Suit.CLUBS),
+                Card(Value.TWO, Suit.SPADES),
+                Card(Value.THREE, Suit.DIAMONDS),
+                Card(Value.FOUR, Suit.CLUBS),
+                Card(Value.FIVE, Suit.HEARTS)
+        ))
+
+        val typeRank = 4 * 10000
+        val participatingCardsNetRank = 15 * 100
+
+        assertEquals(typeRank + participatingCardsNetRank, aceHighStraight.rank)
     }
 }

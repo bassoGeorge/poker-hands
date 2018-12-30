@@ -2,6 +2,7 @@ package com.anishgeorge.poker.core
 
 import com.anishgeorge.poker.core.*
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class CardSetTest {
@@ -133,6 +134,29 @@ internal class CardSetTest {
         )
     }
 
+    @Test
+    fun returnsTheStraightsInASetUsingAceLowMethod() {
+        val set = CardSet(
+                Card(Value.FOUR, Suit.DIAMONDS),
+                Card(Value.FIVE, Suit.CLUBS),
+                Card(Value.THREE, Suit.HEARTS),
+                Card(Value.ACE, Suit.SPADES),
+                Card(Value.TWO, Suit.DIAMONDS)
+        )
+
+        assertEquals(
+                listOf(
+                        listOf(
+                                Card(Value.FIVE, Suit.CLUBS),
+                                Card(Value.FOUR, Suit.DIAMONDS),
+                                Card(Value.THREE, Suit.HEARTS),
+                                Card(Value.TWO, Suit.DIAMONDS),
+                                Card(Value.ACE, Suit.SPADES)
+                        )
+                ),
+                set.straights
+        )
+    }
 
     @Test
     fun returnsTheStraightsInASetOfMoreThan5CardsWhenThereArePairsOrTriplesInTheMix() {
@@ -216,6 +240,31 @@ internal class CardSetTest {
                 set.straightFlushes
         )
     }
+
+    @Test
+    fun returnTheStraightFlushesInACardSetForAceLowStraights() {
+        val set = CardSet(
+                Card(Value.FOUR, Suit.SPADES),
+                Card(Value.THREE, Suit.SPADES),
+                Card(Value.ACE, Suit.SPADES),
+                Card(Value.TWO, Suit.SPADES),
+                Card(Value.FIVE, Suit.SPADES)
+        )
+
+        assertEquals(
+                listOf(
+                        listOf(
+                                Card(Value.FIVE, Suit.SPADES),
+                                Card(Value.FOUR, Suit.SPADES),
+                                Card(Value.THREE, Suit.SPADES),
+                                Card(Value.TWO, Suit.SPADES),
+                                Card(Value.ACE, Suit.SPADES)
+                        )
+                ),
+                set.straightFlushes
+        )
+    }
+
 
     @Test
     fun returnTheFullHousesInACardSet() {

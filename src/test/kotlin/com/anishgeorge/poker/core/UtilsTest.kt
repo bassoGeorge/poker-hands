@@ -1,9 +1,5 @@
 package com.anishgeorge.poker.core
 
-import com.anishgeorge.poker.core.Card
-import com.anishgeorge.poker.core.Suit
-import com.anishgeorge.poker.core.Utils
-import com.anishgeorge.poker.core.Value
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -33,7 +29,7 @@ internal class UtilsTest {
 
     @Test
     fun areCardsStraightInRankReturnsTrueForListOfCardsInStraightRankOrder() {
-        assertTrue(Utils.areCardsStraightInRank(listOf(
+        assertTrue(Utils.areCardsStraightInAceHighRank(listOf(
                 Card(Value.QUEEN, Suit.HEARTS),
                 Card(Value.JACK, Suit.HEARTS),
                 Card(Value.TEN, Suit.DIAMONDS),
@@ -42,7 +38,7 @@ internal class UtilsTest {
                 Card(Value.SEVEN, Suit.SPADES)
         )))
 
-        assertFalse(Utils.areCardsStraightInRank(listOf(
+        assertFalse(Utils.areCardsStraightInAceHighRank(listOf(
                 Card(Value.QUEEN, Suit.HEARTS),
                 Card(Value.SEVEN, Suit.SPADES),
                 Card(Value.JACK, Suit.HEARTS),
@@ -53,15 +49,49 @@ internal class UtilsTest {
     }
 
     @Test
+    fun areCardsStraightInAceLowRankReturnsTrueForListOfCardsInStraightAceLowRankOrder() {
+        assertTrue(Utils.areCardsStraightInAceLowRank(listOf(
+                Card(Value.FIVE, Suit.HEARTS),
+                Card(Value.FOUR, Suit.HEARTS),
+                Card(Value.THREE, Suit.DIAMONDS),
+                Card(Value.TWO, Suit.CLUBS),
+                Card(Value.ACE, Suit.CLUBS)
+        )))
+
+        assertFalse(Utils.areCardsStraightInAceLowRank(listOf(
+                Card(Value.ACE, Suit.HEARTS),
+                Card(Value.KING, Suit.SPADES),
+                Card(Value.QUEEN, Suit.HEARTS),
+                Card(Value.JACK, Suit.CLUBS),
+                Card(Value.NINE, Suit.DIAMONDS)
+        )))
+    }
+
+    @Test
     fun totalRankShouldReturnTheNetRankOfTheGivenCards() {
         assertEquals(
-                13,
-                Utils.totalRank(listOf(Card(Value.KING, Suit.CLUBS)))
+                14,
+                Utils.totalRank(listOf(Card(Value.ACE, Suit.CLUBS)))
         )
         assertEquals(
-                5,
+                17,
                 Utils.totalRank(listOf(
-                        Card(Value.TWO, Suit.SPADES),
+                        Card(Value.ACE, Suit.SPADES),
+                        Card(Value.THREE, Suit.HEARTS)
+                ))
+        )
+    }
+
+    @Test
+    fun totalAceLowRankShouldReturnTheNetRankOfTheGivenCardsByAceLowRanking() {
+        assertEquals(
+                1,
+                Utils.totalAceLowRank(listOf(Card(Value.ACE, Suit.CLUBS)))
+        )
+        assertEquals(
+                4,
+                Utils.totalAceLowRank(listOf(
+                        Card(Value.ACE, Suit.SPADES),
                         Card(Value.THREE, Suit.HEARTS)
                 ))
         )

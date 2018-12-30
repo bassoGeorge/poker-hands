@@ -4,9 +4,21 @@ class Hand(
         val type: HandType = HandType.HIGH_CARD,
         val participatingCards: Cards
 ) : Comparable<Hand> {
-    val rank
-        get() =
-            (type.rank * 1000) + (Utils.totalRank(participatingCards) * 100)
+
+    val isAceLow by lazy {
+        when (type) {
+            HandType.STRAIGHT, HandType.STRAIGHT_FLUSH ->
+                participatingCards.isNotEmpty() && participatingCards.last().value == Value.ACE
+            else -> false
+        }
+    }
+
+    val rank by lazy {
+        val rankSummation = if(isAceLow) Utils::totalAceLowRank else Utils::totalRank
+
+        (type.rank * 10000) + (rankSummation(participatingCards) * 100)
+    }
+
 
 
     override fun compareTo(other: Hand): Int = rank - other.rank

@@ -8,15 +8,14 @@ package com.anishgeorge.poker.core
 internal class CardSet(unsortedCards: Cards) {
 
     private val cards = unsortedCards.sortedDescending()
-    private val cardGroups = cards.groupBy { it.value }
+    private val valueGroups by lazy { cards.groupBy { it.value } }
+    private val uniqueCards by lazy { Utils.uniqueCards(cards) }
 
     constructor(vararg unsortedCards: Card) : this(unsortedCards.toList())
 
     fun highest(): Card = cards.first()
-    private fun toList(): Cards = cards
-    private fun inRankGroups(): Map<Value, Cards> = cardGroups
 
-    private fun getSameValueCardsByCount(count: Int): List<Cards> = inRankGroups()
+    private fun getSameValueCardsByCount(count: Int): List<Cards> = valueGroups
             .filter { (_, value) -> value.size >= count }
             .values.toList()
             .map { it.take(count) }
@@ -29,25 +28,24 @@ internal class CardSet(unsortedCards: Cards) {
     val quadruples: List<Cards> by lazy { getSameValueCardsByCount(4) }
 
     val straights: List<Cards> by lazy {
-        val cards = Utils.uniqueCards(toList())
-        if (cards.size < 5) emptyList()
-        else (0..(cards.size - 5))
-                .map { cards.subList(it, it + 5) }
-                .filter(Utils::areCardsStraightInRank)
+        if (uniqueCards.size < 5) emptyList()
+        else (0..(uniqueCards.size - 5))
+                .map { uniqueCards.subList(it, it + 5) }
+                .filter(Utils::areCardsStraightInAceHighRank) + aceLowStraights
     }
 
-    val flushes: List<Cards> by lazy {
-        toList()
-                .groupBy { it.suit }
-                .filterValues { it.size >= 5 }
-                .values
-                .flatMap { flushCards -> (0..(flushCards.size - 5)).map { flushCards.subList(it, it + 5) } }
+    private val aceLowStraights: List<Cards> by lazy {
+        val aceLowCards = uniqueCards.sortedByDescending { it.aceLowRank }.takeLast(5)
+        if (aceLowCards.last().value == Value.ACE && Utils.areCardsStraightInAceLowRank(aceLowCards)) listOf(aceLowCards)
+        else emptyList()
     }
+
+    val flushes: List<Cards> by lazy { Utils.flushesInCards(cards) }
 
     val straightFlushes: List<Cards> by lazy {
         val flushSet = flushes.toSet()
         val straightSet = straights.toSet()
-        flushSet.intersect(straightSet).toList()
+        flushSet.intersect(straightSet).toList() + aceLowStraights.filter { Utils.flushesInCards(it).size == 1 }
     }
 
     val fullHouses: List<Cards> by lazy {

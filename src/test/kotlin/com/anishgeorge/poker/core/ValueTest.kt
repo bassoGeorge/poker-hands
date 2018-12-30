@@ -25,7 +25,7 @@ internal class ValueTest {
     }
 
     @Test
-    fun shouldAdequateRanks() {
+    fun shouldHaveCorrectRanks() {
         assertEquals(14, Value.ACE.rank)
         assertEquals(13, Value.KING.rank)
         assertEquals(12, Value.QUEEN.rank)
@@ -39,6 +39,23 @@ internal class ValueTest {
         assertEquals(4, Value.FOUR.rank)
         assertEquals(3, Value.THREE.rank)
         assertEquals(2, Value.TWO.rank)
+    }
+
+    @Test
+    fun shouldHaveCorrectAceLowRanks() {
+        assertEquals(13, Value.KING.aceLowRank)
+        assertEquals(12, Value.QUEEN.aceLowRank)
+        assertEquals(11, Value.JACK.aceLowRank)
+        assertEquals(10, Value.TEN.aceLowRank)
+        assertEquals(9, Value.NINE.aceLowRank)
+        assertEquals(8, Value.EIGHT.aceLowRank)
+        assertEquals(7, Value.SEVEN.aceLowRank)
+        assertEquals(6, Value.SIX.aceLowRank)
+        assertEquals(5, Value.FIVE.aceLowRank)
+        assertEquals(4, Value.FOUR.aceLowRank)
+        assertEquals(3, Value.THREE.aceLowRank)
+        assertEquals(2, Value.TWO.aceLowRank)
+        assertEquals(1, Value.ACE.aceLowRank)
     }
 
     @Test
