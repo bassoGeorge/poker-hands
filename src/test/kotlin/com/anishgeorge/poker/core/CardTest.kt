@@ -29,19 +29,6 @@ internal class CardTest {
         assertEquals(1, Card(Value.ACE, Suit.CLUBS).aceLowRank)
     }
 
-    @Test
-    fun shouldBeAbleToFindTheSameRankedCards() {
-        assertTrue(Card.areSameRanks(Card(Value.TWO, Suit.CLUBS), Card(Value.TWO, Suit.HEARTS)))
-        assertFalse(Card.areSameRanks(Card(Value.TWO, Suit.CLUBS), Card(Value.ACE, Suit.HEARTS)))
-    }
-
-    @Test
-    fun shouldBeAbleToFindTheSameRankedCardsInMoreThanTwo() {
-        val card1 = Card(Value.TWO, Suit.CLUBS)
-        val card2 = Card(Value.TWO, Suit.HEARTS)
-        val card3 = Card(Value.TWO, Suit.SPADES)
-        assertTrue(Card.areSameRanks(card1, card2, card3))
-    }
 
     @Test
     fun shouldHaveImplicitRankBasedDescendingOrdering() {

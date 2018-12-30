@@ -22,7 +22,7 @@ object Utils {
     fun totalRank(cards: Cards) = totalRankByRanker(cards) { it.rank }
     fun totalAceLowRank(cards: Cards) = totalRankByRanker(cards) { it.aceLowRank }
 
-    // Just coz this logic was repeated, had to move it to utility... code smell?
+    // NOTE: Just coz this logic was repeated, had to move it to utility... code smell?
     fun flushesInCards(cards: Cards): List<Cards> = cards
             .groupBy { it.suit }
             .filterValues { it.size >= 5 }
