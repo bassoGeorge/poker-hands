@@ -1,6 +1,7 @@
 package com.anishgeorge.poker.core
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class HandTest {
@@ -435,5 +436,14 @@ internal class HandTest {
         val participatingCardsNetRank = 15 * 100
 
         assertEquals(typeRank + participatingCardsNetRank, aceHighStraight.rank)
+    }
+
+    @Disabled("We have to do some work to get our implementation in place")
+    @Test
+    fun shouldFindCorrectHandRankInTrickySituations() {
+        val acesFullOfTwos = Hand.bestOf(cardListOf("AH", "AD", "AS", "2H", "2D"))
+        val kingsFullOfJacks = Hand.bestOf(cardListOf("KH", "KD", "KS", "JH", "JD"))
+
+        assertTrue(acesFullOfTwos > kingsFullOfJacks)
     }
 }

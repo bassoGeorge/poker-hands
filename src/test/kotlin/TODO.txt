@@ -1,14 +1,9 @@
-[x] Ace low ranking?
-[x] Straight flush for ace low
-[x] Hand rank when acelow
-[x] Hand net rank tests
-[x] A table with dealer
-[x] Table.play()
-[x] Winner
-[x] Ties
-[x] Player to figure out own hand
+[ ] Advance logic for hand rankings in different types of hands
+ -  https://www.adda52.com/poker/poker-rules/cash-game-rules/tie-breaker-rules
+
+[ ] Get all the participating cards in play
+---------------------
 [ ] Players not aware of community beforehand
  -  When should a player compute his/her hand? dealer initiates it on flop/turn/river? Player listens to events on community?
-[x] Dealer initiated player hand checks
 [ ] Code smell regarding Utils logic
-[ ] Rank related interface
+[ ] Rank related interface, maybe not required
