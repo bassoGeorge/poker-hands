@@ -1,7 +1,7 @@
-package com.anishgeorge.poker.core
+package com.anishgeorge.poker.core.hand
 
+import com.anishgeorge.poker.core.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class HandTest {
@@ -416,7 +416,7 @@ internal class HandTest {
                 Card(Value.QUEEN, Suit.HEARTS)
         ))
 
-        val typeRank = 4 * 10000
+        val typeRank = 4 * 1_0000_00
         val participatingCardsNetRank = 60 * 100
 
         assertEquals(typeRank + participatingCardsNetRank, aceHighStraight.rank)
@@ -432,18 +432,20 @@ internal class HandTest {
                 Card(Value.FIVE, Suit.HEARTS)
         ))
 
-        val typeRank = 4 * 10000
+        val typeRank = 4 * 1_0000_00
         val participatingCardsNetRank = 15 * 100
 
         assertEquals(typeRank + participatingCardsNetRank, aceHighStraight.rank)
     }
 
-    @Disabled("We have to do some work to get our implementation in place")
+    // TODO: might need to move this into FullHouse test
     @Test
-    fun shouldFindCorrectHandRankInTrickySituations() {
+    fun shouldBreakTheTieForFullHouse() {
         val acesFullOfTwos = Hand.bestOf(cardListOf("AH", "AD", "AS", "2H", "2D"))
         val kingsFullOfJacks = Hand.bestOf(cardListOf("KH", "KD", "KS", "JH", "JD"))
+        val kingsFullOfQueens = Hand.bestOf(cardListOf("KH", "KD", "KS", "QH", "QD"))
 
         assertTrue(acesFullOfTwos > kingsFullOfJacks)
+        assertTrue(acesFullOfTwos > kingsFullOfQueens)
     }
 }

@@ -1,6 +1,8 @@
-package com.anishgeorge.poker.core
+package com.anishgeorge.poker.core.hand
 
-class Hand(
+import com.anishgeorge.poker.core.*
+
+open class Hand(
         val type: HandType = HandType.HIGH_CARD,
         val participatingCards: Cards
 ) : Comparable<Hand> {
@@ -14,11 +16,16 @@ class Hand(
     }
 
     val rank by lazy {
-        val rankSummation = if(isAceLow) Utils::totalAceLowRank else Utils::totalRank
-
-        (type.rank * 10000) + (rankSummation(participatingCards) * 100)
+        ((type.rank * 1_0000_00)                        // a 7 digit total rank always
+                + (participatingCardsStrength() * 100)  // four digits coming in from participating cards and 2 digits from kickers
+                + 0)                                    // The last 2 digits is for kickers
     }
 
+    // Should return a max 4 digit long number in strength
+    internal open fun participatingCardsStrength(): Int {
+        val rankSummation = if(isAceLow) Utils::totalAceLowRank else Utils::totalRank
+        return rankSummation(participatingCards)
+    }
 
 
     override fun compareTo(other: Hand): Int = rank - other.rank
@@ -55,7 +62,7 @@ class Hand(
                     Hand(HandType.ROYAL_FLUSH, cardSet.straightFlushes.first())
                 cardSet.straightFlushes.isNotEmpty() -> Hand(HandType.STRAIGHT_FLUSH, cardSet.straightFlushes.first())
                 cardSet.quadruples.isNotEmpty() -> Hand(HandType.FOUR_OF_A_KIND, cardSet.quadruples.first())
-                cardSet.fullHouses.isNotEmpty() -> Hand(HandType.FULL_HOUSE, cardSet.fullHouses.first())
+                cardSet.fullHouses.isNotEmpty() -> FullHouse(cardSet.fullHouses.first())
                 cardSet.flushes.isNotEmpty() -> Hand(HandType.FLUSH, cardSet.flushes.first())
                 cardSet.straights.isNotEmpty() -> Hand(HandType.STRAIGHT, cardSet.straights.first())
                 cardSet.triples.isNotEmpty() -> Hand(HandType.THREE_OF_A_KIND, cardSet.triples.first())
