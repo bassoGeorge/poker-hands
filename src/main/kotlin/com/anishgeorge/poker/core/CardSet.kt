@@ -13,8 +13,6 @@ internal class CardSet(unsortedCards: Cards) {
 
     constructor(vararg unsortedCards: Card) : this(unsortedCards.toList())
 
-    fun highest(): Card = cards.first()
-
     private fun getSameValueCardsByCount(count: Int): List<Cards> = valueGroups
             .filter { (_, value) -> value.size >= count }
             .values.toList()
@@ -79,7 +77,5 @@ internal class CardSet(unsortedCards: Cards) {
     override fun toString(): String {
         return "CardSet(cards=$cards)"
     }
-
-    fun getCardsExcept(cardsToSubtract: Cards): Cards = cards - cardsToSubtract
 
 }

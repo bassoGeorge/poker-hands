@@ -2,10 +2,11 @@ package com.anishgeorge.poker.game
 
 import com.anishgeorge.poker.core.Hand
 import com.anishgeorge.poker.core.HandType
-import io.mockk.*
-import io.mockk.impl.annotations.MockK
+import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -13,16 +14,12 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MockKExtension::class)
 class TableTest {
 
-    @MockK
-    lateinit var deck: Deck
-
     @RelaxedMockK
+    private
     lateinit var community: Community
 
     @RelaxedMockK
-    lateinit var burns: Burns
-
-    @RelaxedMockK
+    private
     lateinit var dealer: Dealer
 
     @Test

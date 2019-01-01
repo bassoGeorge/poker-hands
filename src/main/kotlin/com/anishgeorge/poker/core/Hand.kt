@@ -1,6 +1,6 @@
 package com.anishgeorge.poker.core
 
-open class Hand(
+class Hand(
         val type: HandType = HandType.HIGH_CARD,
         val participatingCards: Cards
 ) : Comparable<Hand> {
@@ -20,7 +20,7 @@ open class Hand(
     }
 
     // Should return a max 4 digit long number in strength
-    internal open fun strengthOfCards(): Long {
+    private fun strengthOfCards(): Long {
         val getRank = if (isAceLow) Card::aceLowRank else Card::rank
         return participatingCards
                 .reversed()         // We now go from least important to most important card
@@ -57,23 +57,40 @@ open class Hand(
     companion object {
 
         internal fun bestOf(cardSet: CardSet): Hand {
-            return when {
+            val (type, cards) = when {
                 cardSet.straightFlushes.isNotEmpty() && cardSet.straightFlushes.first().first().value == Value.ACE ->
-                    Hand(HandType.ROYAL_FLUSH, cardSet.straightFlushes.first())
-                cardSet.straightFlushes.isNotEmpty() -> Hand(HandType.STRAIGHT_FLUSH, cardSet.straightFlushes.first())
-                cardSet.quadruples.isNotEmpty() -> {
-                    val quads = cardSet.quadruples.first()
-                    val rest = cardSet.getCardsExcept(quads)
-                    Hand(HandType.FOUR_OF_A_KIND, quads + rest.first())
-                }
-                cardSet.fullHouses.isNotEmpty() -> Hand(HandType.FULL_HOUSE, cardSet.fullHouses.first())
-                cardSet.flushes.isNotEmpty() -> Hand(HandType.FLUSH, cardSet.flushes.first())
-                cardSet.straights.isNotEmpty() -> Hand(HandType.STRAIGHT, cardSet.straights.first())
-                cardSet.triples.isNotEmpty() -> Hand(HandType.THREE_OF_A_KIND, cardSet.triples.first())
-                cardSet.pairs.size >= 2 -> Hand(HandType.TWO_PAIR, cardSet.pairs.take(2).flatten())
-                cardSet.pairs.isNotEmpty() -> Hand(HandType.ONE_PAIR, cardSet.pairs.first())
-                else -> Hand(HandType.HIGH_CARD, cardSet.cards)
+                    HandType.ROYAL_FLUSH to cardSet.straightFlushes.first()
+
+                cardSet.straightFlushes.isNotEmpty() ->
+                    HandType.STRAIGHT_FLUSH to cardSet.straightFlushes.first()
+
+                cardSet.quadruples.isNotEmpty() ->
+                    HandType.FOUR_OF_A_KIND to cardSet.quadruples.first()
+
+                cardSet.fullHouses.isNotEmpty() ->
+                    HandType.FULL_HOUSE to cardSet.fullHouses.first()
+
+                cardSet.flushes.isNotEmpty() ->
+                    HandType.FLUSH to cardSet.flushes.first()
+
+                cardSet.straights.isNotEmpty() ->
+                    HandType.STRAIGHT to cardSet.straights.first()
+
+                cardSet.triples.isNotEmpty() ->
+                    HandType.THREE_OF_A_KIND to cardSet.triples.first()
+
+                cardSet.pairs.size >= 2 ->
+                    HandType.TWO_PAIR to cardSet.pairs.take(2).flatten()
+
+                cardSet.pairs.isNotEmpty() ->
+                    HandType.ONE_PAIR to cardSet.pairs.first()
+
+                else ->
+                    HandType.HIGH_CARD to cardSet.cards
             }
+
+            val kickers = if (cards.size == 5) emptyList() else (cardSet.cards - cards).take(5 - cards.size)
+            return Hand(type, cards + kickers)
         }
 
         fun bestOf(vararg cards: Card): Hand = bestOf(CardSet(*cards))

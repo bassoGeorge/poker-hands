@@ -32,7 +32,10 @@ internal class HandTest {
         assertEquals(HandType.ONE_PAIR, hand.type)
         assertEquals(listOf(
                 Card(Value.SEVEN, Suit.HEARTS),
-                Card(Value.SEVEN, Suit.DIAMONDS)
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.THREE, Suit.CLUBS),
+                Card(Value.TWO, Suit.CLUBS)
         ), hand.participatingCards)
     }
 
@@ -43,6 +46,7 @@ internal class HandTest {
                 Card(Value.QUEEN, Suit.SPADES),
                 Card(Value.SEVEN, Suit.DIAMONDS),
                 Card(Value.QUEEN, Suit.CLUBS),
+                Card(Value.FIVE, Suit.CLUBS),
                 Card(Value.TWO, Suit.CLUBS)
         )
         val hand = Hand.bestOf(cardSet)
@@ -51,7 +55,8 @@ internal class HandTest {
                 Card(Value.QUEEN, Suit.SPADES),
                 Card(Value.QUEEN, Suit.CLUBS),
                 Card(Value.SEVEN, Suit.HEARTS),
-                Card(Value.SEVEN, Suit.DIAMONDS)
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.FIVE, Suit.CLUBS)
         ), hand.participatingCards)
     }
 
@@ -71,7 +76,8 @@ internal class HandTest {
                 Card(Value.QUEEN, Suit.SPADES),
                 Card(Value.QUEEN, Suit.CLUBS),
                 Card(Value.SEVEN, Suit.HEARTS),
-                Card(Value.SEVEN, Suit.DIAMONDS)
+                Card(Value.SEVEN, Suit.DIAMONDS),
+                Card(Value.THREE, Suit.CLUBS)
         ), hand.participatingCards)
     }
 
@@ -89,7 +95,10 @@ internal class HandTest {
         assertEquals(listOf(
                 Card(Value.SEVEN, Suit.HEARTS),
                 Card(Value.SEVEN, Suit.DIAMONDS),
-                Card(Value.SEVEN, Suit.CLUBS)
+                Card(Value.SEVEN, Suit.CLUBS),
+                Card(Value.QUEEN, Suit.SPADES),
+                Card(Value.TWO, Suit.CLUBS)
+
         ), hand.participatingCards)
     }
 
@@ -314,14 +323,21 @@ internal class HandTest {
         val pair = Hand.bestOf(
                 Card(Value.EIGHT, Suit.SPADES),
                 Card(Value.EIGHT, Suit.CLUBS),
-                Card(Value.ACE, Suit.CLUBS),
+                Card(Value.ACE, Suit.DIAMONDS),
                 Card(Value.FIVE, Suit.CLUBS),
-                Card(Value.TWO, Suit.CLUBS)
+                Card(Value.TWO, Suit.CLUBS),
+                Card(Value.NINE, Suit.SPADES),
+                Card(Value.THREE, Suit.CLUBS)
         )
 
         assertEquals(
-                listOf(Card(Value.EIGHT, Suit.SPADES),
-                        Card(Value.EIGHT, Suit.CLUBS)),
+                listOf(
+                        Card(Value.EIGHT, Suit.SPADES),
+                        Card(Value.EIGHT, Suit.CLUBS),
+                        Card(Value.ACE, Suit.DIAMONDS),
+                        Card(Value.NINE, Suit.SPADES),
+                        Card(Value.FIVE, Suit.CLUBS)
+                ),
                 pair.participatingCards
         )
 
@@ -330,14 +346,18 @@ internal class HandTest {
                 Card(Value.EIGHT, Suit.CLUBS),
                 Card(Value.TWO, Suit.CLUBS),
                 Card(Value.FIVE, Suit.CLUBS),
-                Card(Value.TWO, Suit.CLUBS)
+                Card(Value.TWO, Suit.CLUBS),
+                Card(Value.ACE, Suit.SPADES),
+                Card(Value.NINE, Suit.HEARTS)
         )
 
         assertEquals(
-                listOf(Card(Value.EIGHT, Suit.SPADES),
+                listOf(
+                        Card(Value.EIGHT, Suit.SPADES),
                         Card(Value.EIGHT, Suit.CLUBS),
                         Card(Value.TWO, Suit.CLUBS),
-                        Card(Value.TWO, Suit.CLUBS)
+                        Card(Value.TWO, Suit.CLUBS),
+                        Card(Value.ACE, Suit.SPADES)
                 ),
                 twoPair.participatingCards
         )
@@ -484,5 +504,26 @@ internal class HandTest {
         assertTrue(straight.rank > onePair.rank)
         assertTrue(straight > onePair)
     }
+
+    @Test
+    fun shouldBreakTheTieFor3OfAKind() {
+        val trip1 = Hand.bestOf(cardListOf("KH", "KD", "KS", "8C", "3C"))
+        val trip2 = Hand.bestOf(cardListOf("KH", "KD", "KS", "6D", "3D"))
+        val trip3 = Hand.bestOf(cardListOf("KH", "KD", "KS", "8H", "2H"))
+
+        assertTrue(trip1 > trip2)
+        assertTrue(trip1 > trip3)
+    }
+
+    @Test
+    fun shouldBreakTheTieFor2Pair() {
+        val tp1 = Hand.bestOf(cardListOf("KH", "KD", "QS", "QC", "3C"))
+        val tp2 = Hand.bestOf(cardListOf("KH", "KD", "JS", "JD", "3D"))
+        val tp3 = Hand.bestOf(cardListOf("KH", "KD", "QS", "QH", "2H"))
+
+        assertTrue(tp1 > tp2)
+        assertTrue(tp1 > tp3)
+    }
+
 
 }

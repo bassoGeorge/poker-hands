@@ -3,7 +3,7 @@ package com.anishgeorge.poker.game
 import com.anishgeorge.poker.core.Utils.repeat
 import com.anishgeorge.poker.exceptions.TooFewPlayersPlayingException
 
-class Dealer(private val deck: Deck, val community: Community, val burns: Burns) {
+class Dealer(private val deck: Deck, val community: Community, private val burns: Burns) {
     private val _players = mutableListOf<Player>()
 
     val players: List<Player> get() = _players.toList()

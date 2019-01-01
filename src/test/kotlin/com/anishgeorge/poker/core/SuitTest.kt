@@ -1,6 +1,5 @@
 package com.anishgeorge.poker.core
 
-import com.anishgeorge.poker.core.Suit
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

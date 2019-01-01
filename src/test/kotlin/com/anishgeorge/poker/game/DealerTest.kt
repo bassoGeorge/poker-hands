@@ -16,9 +16,11 @@ import org.junit.jupiter.api.extension.ExtendWith
 class DealerTest {
 
     @RelaxedMockK
+    private
     lateinit var community: Community
 
     @MockK
+    private
     lateinit var deck: Deck
 
     @RelaxedMockK

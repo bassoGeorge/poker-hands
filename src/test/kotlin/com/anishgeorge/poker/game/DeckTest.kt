@@ -4,9 +4,9 @@ import com.anishgeorge.poker.core.Card
 import com.anishgeorge.poker.core.Cards
 import com.anishgeorge.poker.core.Suit
 import com.anishgeorge.poker.core.Value
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import kotlin.reflect.jvm.internal.ReflectProperties
 
 class DeckTest {
     @Test

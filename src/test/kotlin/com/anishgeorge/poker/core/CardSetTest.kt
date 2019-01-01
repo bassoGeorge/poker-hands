@@ -290,13 +290,4 @@ internal class CardSetTest {
         )
     }
 
-    @Test
-    fun shouldReturnTheRemainingCardsInTheSetHighestFirstGivenAListOfCards() {
-        val set = CardSet(cardListOf("AS", "KS", "KD", "8D", "6D", "AD", "10H"))
-        val pendingCards = set.getCardsExcept(cardListOf("AS", "KS", "KD", "AD"))
-        assertEquals(
-                cardListOf("10H", "8D", "6D"),
-                pendingCards
-        )
-    }
 }
