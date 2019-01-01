@@ -5,6 +5,7 @@ import com.anishgeorge.poker.core.HandType
 import com.anishgeorge.poker.core.cardListOf
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class TableIntegrationTest {
@@ -90,6 +91,8 @@ class TableIntegrationTest {
         assertEquals(HandType.THREE_OF_A_KIND, p2.hand.type)
         assertEquals(HandType.ONE_PAIR, p3.hand.type)
 
+        println(p1.hand.rank)
+        println(p3.hand.rank)
         assertEquals(listOf(p1), winners)
 
     }

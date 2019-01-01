@@ -96,4 +96,18 @@ internal class UtilsTest {
                 ))
         )
     }
+
+    @Test
+    fun geometricProgressionWorks() {
+        assertEquals(1, Utils.geometricProgression(1, 100)(1))
+        assertEquals(100, Utils.geometricProgression(1, 100)(2))
+        assertEquals(10000, Utils.geometricProgression(1, 100)(3))
+    }
+
+    @Test
+    fun longRankComparatorFixesTheOverflowError() {
+        assertEquals(1, Utils.longRankComparator.compare(4504030201L, 1000000505L))
+        assertEquals(-1, Utils.longRankComparator.compare(1000000505L, 4504030201L))
+        assertEquals(0, Utils.longRankComparator.compare(4504030201L, 4504030201L))
+    }
 }

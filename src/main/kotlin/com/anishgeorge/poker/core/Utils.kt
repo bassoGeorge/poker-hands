@@ -1,5 +1,7 @@
 package com.anishgeorge.poker.core
 
+import kotlin.math.pow
+
 object Utils {
 
     fun uniqueCards(cards: Cards): Cards = cards.fold(emptyList()) { currentList, card ->
@@ -30,4 +32,20 @@ object Utils {
             .flatMap { flushCards -> (0..(flushCards.size - 5)).map { flushCards.subList(it, it + 5) } }
 
     fun repeat(times: Int, fn: (Int) -> Unit) = (1..times).forEach(fn)
+
+    fun geometricProgression(a: Int, r: Int): (Int) -> Long {
+        val rd = r.toDouble()
+        return fun(n: Int):Long {
+            return (a * (rd.pow(n - 1))).toLong()
+        }
+    }
+
+    val longRankComparator = Comparator<Long> { r1, r2 ->
+        val diff = r1 - r2
+        when {
+            diff > 0 -> 1
+            diff < 0 -> -1
+            else -> 0
+        }
+    }
 }

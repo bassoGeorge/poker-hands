@@ -1,6 +1,6 @@
 package com.anishgeorge.poker.game
 
-import com.anishgeorge.poker.core.hand.Hand
+import com.anishgeorge.poker.core.Hand
 
 class Player(val name: String) : Dealable(2) {
     val isReady get() = cards.size == maxCardsAllowed

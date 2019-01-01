@@ -1,6 +1,6 @@
 package com.anishgeorge.poker.game
 
-import com.anishgeorge.poker.core.hand.Hand
+import com.anishgeorge.poker.core.Hand
 import com.anishgeorge.poker.core.HandType
 import io.mockk.*
 import io.mockk.impl.annotations.MockK

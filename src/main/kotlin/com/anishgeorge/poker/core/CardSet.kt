@@ -7,7 +7,7 @@ package com.anishgeorge.poker.core
  */
 internal class CardSet(unsortedCards: Cards) {
 
-    private val cards = unsortedCards.sortedDescending()
+    val cards = unsortedCards.sortedDescending()
     private val valueGroups by lazy { cards.groupBy { it.value } }
     private val uniqueCards by lazy { Utils.uniqueCards(cards) }
 
@@ -79,5 +79,7 @@ internal class CardSet(unsortedCards: Cards) {
     override fun toString(): String {
         return "CardSet(cards=$cards)"
     }
+
+    fun getCardsExcept(cardsToSubtract: Cards): Cards = cards - cardsToSubtract
 
 }

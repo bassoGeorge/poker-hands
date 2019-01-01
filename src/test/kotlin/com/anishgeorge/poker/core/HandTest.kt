@@ -1,6 +1,5 @@
-package com.anishgeorge.poker.core.hand
+package com.anishgeorge.poker.core
 
-import com.anishgeorge.poker.core.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -17,7 +16,7 @@ internal class HandTest {
         )
         val hand = Hand.bestOf(cardSet)
         assertEquals(HandType.HIGH_CARD, hand.type)
-        assertEquals(listOf(Card(Value.JACK, Suit.SPADES)), hand.participatingCards)
+        assertEquals(cardSet.cards, hand.participatingCards)
     }
 
     @Test
@@ -200,7 +199,8 @@ internal class HandTest {
                 Card(Value.JACK, Suit.DIAMONDS),
                 Card(Value.JACK, Suit.DIAMONDS),
                 Card(Value.JACK, Suit.HEARTS),
-                Card(Value.JACK, Suit.DIAMONDS)
+                Card(Value.JACK, Suit.DIAMONDS),
+                Card(Value.QUEEN, Suit.SPADES)
         ), hand.participatingCards)
     }
 
@@ -408,37 +408,21 @@ internal class HandTest {
 
     @Test
     fun shouldComputeCorrectRankForFullHands() {
-        val aceHighStraight = Hand.bestOf(listOf(
-                Card(Value.ACE, Suit.CLUBS),
-                Card(Value.TEN, Suit.SPADES),
-                Card(Value.KING, Suit.DIAMONDS),
-                Card(Value.JACK, Suit.CLUBS),
-                Card(Value.QUEEN, Suit.HEARTS)
-        ))
+        val aceHighStraight = Hand.bestOf(cardListOf("AC", "10S", "KD", "JC", "QH"))
 
-        val typeRank = 4 * 1_0000_00
-        val participatingCardsNetRank = 60 * 100
+        val expectedRank = 41413121110L
 
-        assertEquals(typeRank + participatingCardsNetRank, aceHighStraight.rank)
+        assertEquals(expectedRank, aceHighStraight.rank)
     }
 
     @Test
     fun shouldComputeCorrectRankForFullAceLowHand() {
-        val aceHighStraight = Hand.bestOf(listOf(
-                Card(Value.ACE, Suit.CLUBS),
-                Card(Value.TWO, Suit.SPADES),
-                Card(Value.THREE, Suit.DIAMONDS),
-                Card(Value.FOUR, Suit.CLUBS),
-                Card(Value.FIVE, Suit.HEARTS)
-        ))
+        val aceLowStraight = Hand.bestOf(cardListOf("AC", "2S", "3D", "4C", "5H"))
+        val expectedRank = 40504030201L
 
-        val typeRank = 4 * 1_0000_00
-        val participatingCardsNetRank = 15 * 100
-
-        assertEquals(typeRank + participatingCardsNetRank, aceHighStraight.rank)
+        assertEquals(expectedRank, aceLowStraight.rank)
     }
 
-    // TODO: might need to move this into FullHouse test
     @Test
     fun shouldBreakTheTieForFullHouse() {
         val acesFullOfTwos = Hand.bestOf(cardListOf("AH", "AD", "AS", "2H", "2D"))
@@ -448,4 +432,57 @@ internal class HandTest {
         assertTrue(acesFullOfTwos > kingsFullOfJacks)
         assertTrue(acesFullOfTwos > kingsFullOfQueens)
     }
+
+    @Test
+    fun shouldBreakTheTieForFourOfAKind() {
+        val fourAces = Hand.bestOf(cardListOf("AH", "AD", "AS", "AC", "10D"))
+        val fourKings = Hand.bestOf(cardListOf("KH", "KD", "KS", "KC", "AD"))
+        val fourKingsSmallerKicker = Hand.bestOf(cardListOf("KH", "KD", "KS", "KC", "4D"))
+
+        assertTrue(fourAces > fourKings)
+        assertTrue(fourKings > fourKingsSmallerKicker)
+    }
+
+    @Test
+    fun shouldBreakTheTieForFlushes() {
+        val flush1 = Hand.bestOf(cardListOf("KH", "QH", "10H", "8H", "3H"))
+        val flush2 = Hand.bestOf(cardListOf("KC", "QC", "10C", "8C", "3C"))
+        val flush3 = Hand.bestOf(cardListOf("KD", "QD", "10D", "6D", "3D"))
+
+
+        assertTrue(flush2 > flush3)
+        assertEquals(flush1.rank, flush2.rank)
+
+        val flush4 = Hand.bestOf(cardListOf("JD", "7D", "6D", "5D", "4D"))
+        val flush5 = Hand.bestOf(cardListOf("JD", "10D", "5D", "4D", "3D"))
+
+        assertTrue(flush5 > flush4)
+    }
+
+    @Test
+    fun shouldCalculateTheCorrectRank() {
+        val kHigh = Hand.bestOf(cardListOf("KH", "5C", "4D", "3C", "2H"))
+        val expectedRank = 1305040302L
+        assertEquals(expectedRank, kHigh.rank)
+    }
+
+    @Test
+    fun shouldFigureOutCorrectRankingInTheBasicCaseOfTies() {
+        val kHigh = Hand.bestOf(cardListOf("KH", "5C", "4D", "3C", "2H"))
+        val jHigh = Hand.bestOf(cardListOf("JH", "7C", "4D", "3C", "2H"))
+        val jSecondaryHigh = Hand.bestOf(cardListOf("JH", "6C", "5D", "3C", "2H"))
+
+        assertTrue(jHigh > jSecondaryHigh)
+        assertTrue(kHigh > jHigh)
+    }
+
+    @Test
+    fun shouldBeAbleToCompareRanksCorrectlyWithLong() {
+        val straight = Hand.bestOf(cardListOf("AC", "3D", "4H", "5C", "10S", "2D", "AH"))
+        val onePair = Hand.bestOf(cardListOf("5H", "KC", "4H", "5C", "10S", "2D", "AH"))
+
+        assertTrue(straight.rank > onePair.rank)
+        assertTrue(straight > onePair)
+    }
+
 }

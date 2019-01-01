@@ -1,8 +1,6 @@
 package com.anishgeorge.poker.core
 
-import com.anishgeorge.poker.core.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class CardSetTest {
@@ -289,6 +287,16 @@ internal class CardSetTest {
                         )
                 ),
                 set.straightFlushes
+        )
+    }
+
+    @Test
+    fun shouldReturnTheRemainingCardsInTheSetHighestFirstGivenAListOfCards() {
+        val set = CardSet(cardListOf("AS", "KS", "KD", "8D", "6D", "AD", "10H"))
+        val pendingCards = set.getCardsExcept(cardListOf("AS", "KS", "KD", "AD"))
+        assertEquals(
+                cardListOf("10H", "8D", "6D"),
+                pendingCards
         )
     }
 }

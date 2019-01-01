@@ -1,5 +1,7 @@
 package com.anishgeorge.poker.game
 
+import com.anishgeorge.poker.core.Utils
+
 class Table(private val dealer: Dealer) {
 
     private var _isOpen = true
@@ -26,7 +28,7 @@ class Table(private val dealer: Dealer) {
     fun findWinners(): List<Player> {
         return players
                 .groupBy { it.hand.rank }
-                .toSortedMap(Comparator { rank1, rank2 -> rank2 - rank1 }) // Descending sort on keys (ranks)
+                .toSortedMap(Utils.longRankComparator.reversed()) // Descending sort on keys (ranks)
                 .values
                 .first()
     }

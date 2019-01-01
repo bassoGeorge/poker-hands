@@ -1,6 +1,4 @@
-package com.anishgeorge.poker.core.hand
-
-import com.anishgeorge.poker.core.*
+package com.anishgeorge.poker.core
 
 open class Hand(
         val type: HandType = HandType.HIGH_CARD,
@@ -15,20 +13,22 @@ open class Hand(
         }
     }
 
-    val rank by lazy {
-        ((type.rank * 1_0000_00)                        // a 7 digit total rank always
-                + (participatingCardsStrength() * 100)  // four digits coming in from participating cards and 2 digits from kickers
-                + 0)                                    // The last 2 digits is for kickers
+    val rank: Long by lazy {
+        val zeros = rankProgression(6) // 1 digit over the strength of the hand
+        ((type.rank * zeros)
+                + (strengthOfCards()))
     }
 
     // Should return a max 4 digit long number in strength
-    internal open fun participatingCardsStrength(): Int {
-        val rankSummation = if(isAceLow) Utils::totalAceLowRank else Utils::totalRank
-        return rankSummation(participatingCards)
+    internal open fun strengthOfCards(): Long {
+        val getRank = if (isAceLow) Card::aceLowRank else Card::rank
+        return participatingCards
+                .reversed()         // We now go from least important to most important card
+                .map(getRank)
+                .foldIndexed(0L) { idx, acc, curr -> acc + (curr * rankProgression(idx + 1)) }
     }
 
-
-    override fun compareTo(other: Hand): Int = rank - other.rank
+    override fun compareTo(other: Hand) = Utils.longRankComparator.compare(rank, other.rank)
 
     /* Standard overrides */
     override fun equals(other: Any?): Boolean {
@@ -61,20 +61,26 @@ open class Hand(
                 cardSet.straightFlushes.isNotEmpty() && cardSet.straightFlushes.first().first().value == Value.ACE ->
                     Hand(HandType.ROYAL_FLUSH, cardSet.straightFlushes.first())
                 cardSet.straightFlushes.isNotEmpty() -> Hand(HandType.STRAIGHT_FLUSH, cardSet.straightFlushes.first())
-                cardSet.quadruples.isNotEmpty() -> Hand(HandType.FOUR_OF_A_KIND, cardSet.quadruples.first())
-                cardSet.fullHouses.isNotEmpty() -> FullHouse(cardSet.fullHouses.first())
+                cardSet.quadruples.isNotEmpty() -> {
+                    val quads = cardSet.quadruples.first()
+                    val rest = cardSet.getCardsExcept(quads)
+                    Hand(HandType.FOUR_OF_A_KIND, quads + rest.first())
+                }
+                cardSet.fullHouses.isNotEmpty() -> Hand(HandType.FULL_HOUSE, cardSet.fullHouses.first())
                 cardSet.flushes.isNotEmpty() -> Hand(HandType.FLUSH, cardSet.flushes.first())
                 cardSet.straights.isNotEmpty() -> Hand(HandType.STRAIGHT, cardSet.straights.first())
                 cardSet.triples.isNotEmpty() -> Hand(HandType.THREE_OF_A_KIND, cardSet.triples.first())
                 cardSet.pairs.size >= 2 -> Hand(HandType.TWO_PAIR, cardSet.pairs.take(2).flatten())
                 cardSet.pairs.isNotEmpty() -> Hand(HandType.ONE_PAIR, cardSet.pairs.first())
-                else -> Hand(HandType.HIGH_CARD, listOf(cardSet.highest()))
+                else -> Hand(HandType.HIGH_CARD, cardSet.cards)
             }
         }
 
         fun bestOf(vararg cards: Card): Hand = bestOf(CardSet(*cards))
 
         fun bestOf(cards: Cards): Hand = bestOf(CardSet(cards))
+
+        private val rankProgression = Utils.geometricProgression(1, 100)
 
     }
 }
